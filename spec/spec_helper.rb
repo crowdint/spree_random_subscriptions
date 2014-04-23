@@ -29,6 +29,12 @@ require 'spree/testing_support/controller_requests'
 require 'spree/testing_support/authorization_helpers'
 require 'spree/testing_support/url_helpers'
 
+# include local factories
+Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each do |f|
+  fp =  File.expand_path(f)
+  require fp
+end
+
 # Requires factories defined in lib/spree_random_subscriptions/factories.rb
 require 'spree_random_subscriptions/factories'
 
