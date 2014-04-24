@@ -24,7 +24,7 @@ module Spree
         state: 'confirm'
       )
 
-      self.shipped_products << random_product
+      shipped_products << random_product
       add_line_item(order)
       set_next_order_date
 
