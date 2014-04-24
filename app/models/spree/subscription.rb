@@ -50,7 +50,7 @@ module Spree
 
     def set_next_order_date
       if paid && missing_items > 0
-        self.update_attribute :next_date , created_at + self.shipped_products.count.months
+        update_attribute :next_date , created_at + shipped_products.count.months
       end
     end
 

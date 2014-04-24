@@ -67,7 +67,7 @@ describe Spree::Subscription do
 
       let!(:order) { subject.create_order }
 
-      it{ expect(subject.next_date).to eq Time.zone.today + 1.month }
+      it { expect(subject.next_date).to eq Time.zone.today + 1.month }
     end
   end
 end
