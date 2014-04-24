@@ -59,5 +59,15 @@ describe Spree::Subscription do
     it 'creates a completed order' do
       expect(order.state).to eq 'complete'
     end
+
+    context 'with a paid subscription' do
+      before do
+        subject.update_attribute(:paid, true)
+      end
+
+      let!(:order) { subject.create_order }
+
+      it{ expect(subject.next_date).to eq Time.zone.today + 1.month }
+    end
   end
 end
