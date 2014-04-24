@@ -1,3 +1,7 @@
+require "sidekiq/web"
+
 Spree::Core::Engine.routes.draw do
-  # Add your extension routes here
+  authenticate :spree_user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end
