@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Spree::Subscription do
-  let(:subject){ create :subscription }
+  let(:subject) { create :subscription }
 
   describe '#set_next_order_date' do
     it { expect(subject.next_date).to eq Time.zone.today + 1 }
@@ -27,7 +27,7 @@ describe Spree::Subscription do
 
   describe '#random_product' do
     context 'with shipped_products empty' do
-      let!(:product){ create :product }
+      let!(:product) { create :product }
 
       it 'returns the not subscription product' do
         expect(subject.random_product).to eq product
@@ -35,7 +35,7 @@ describe Spree::Subscription do
     end
 
     context 'with some shipped_products' do
-      let!(:product){ create :product }
+      let!(:product) { create :product }
 
       before do
         subject.shipped_products << create(:product)
@@ -49,8 +49,8 @@ describe Spree::Subscription do
   end
 
   describe '#create_order' do
-    let!(:product){ create :product }
-    let(:order){ subject.create_order }
+    let!(:product) { create :product }
+    let(:order) { subject.create_order }
 
     it 'creates a valid order' do
       expect(order).to be_valid

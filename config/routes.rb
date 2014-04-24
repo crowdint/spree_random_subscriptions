@@ -1,4 +1,4 @@
-require "sidekiq/web"
+require 'sidekiq/web'
 
 Spree::Core::Engine.routes.draw do
   authenticate :spree_user, lambda { |u| u.admin? } do
