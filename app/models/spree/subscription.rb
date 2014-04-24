@@ -9,5 +9,13 @@ module Spree
     def missing_items
       limit - shipped_products.count
     end
+
+    def random_product
+      Product.unsubscribable.
+        where.not(id: shipped_products).
+        order("RANDOM()").
+        limit(1).
+        first
+    end
   end
 end
