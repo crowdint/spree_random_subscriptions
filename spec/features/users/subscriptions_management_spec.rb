@@ -34,7 +34,8 @@ feature 'User can manage his subscriptions' do
     end
 
     scenario 'displays no subscriptions yet message' do
-      expect(page).to have_content I18n.t(:no_subscriptions_yet, scope: :random_subscriptions)
+      expect(page).to have_content I18n.t(:no_subscriptions_yet,
+                                          scope: :random_subscriptions)
     end
   end
 end

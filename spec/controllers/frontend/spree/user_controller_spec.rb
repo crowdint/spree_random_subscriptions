@@ -5,9 +5,8 @@ describe Spree::UsersController do
     let(:subscription) { create :subscription }
 
     before do
-      @routes = Spree::Core::Engine.routes
       controller.stub current_spree_user: subscription.user
-      get :show
+      spree_get :show
     end
 
     it 'finds user subscriptions' do
