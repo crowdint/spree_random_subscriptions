@@ -1,5 +1,5 @@
 %tr{ class: cycle('even', 'odd') }
-  %td= subscription.product.name
+  %td= subscription.subscription_product.name
   %td= l subscription.created_at.to_date
   %td= subscription.limit
   %td= link_to 'Cancel', '#'

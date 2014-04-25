@@ -1,6 +1,6 @@
 %h3= t(:my_subscriptions, scope: :random_subscriptions)
 - if @subscriptions.present?
-  %table
+  %table#my-subscriptions
     %thead
       %tr
         %th= t(:subscribed_product, scope: :random_subscriptions)
