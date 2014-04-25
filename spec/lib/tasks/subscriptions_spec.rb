@@ -5,6 +5,7 @@ describe 'subscriptions', sidekiq: :fake do
   before do
     SpreeRandomSubscriptions::Engine.load_tasks
     Rake::Task.define_task(:environment)
+    create :product
   end
 
   describe ':generate_orders' do

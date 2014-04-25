@@ -2,6 +2,10 @@ require "spec_helper"
 
 describe Spree::Order do
   describe '#create_subscriptions!' do
+    before do
+      create :product
+    end
+
     let(:variant) { create :variant, product: create(:subscription_product) }
     let(:line_item) { create :line_item, variant: variant }
     let(:order) { line_item.order }

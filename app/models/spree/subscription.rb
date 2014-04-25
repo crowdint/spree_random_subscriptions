@@ -5,9 +5,7 @@ module Spree
     belongs_to :subscription_product
     has_and_belongs_to_many :shipped_products, class_name: 'Spree::Product'
 
-    before_create do
-      self.next_date = Time.zone.today + 1
-    end
+    after_create :create_order
 
     scope :send_today, -> { where next_date: Time.zone.today }
 
