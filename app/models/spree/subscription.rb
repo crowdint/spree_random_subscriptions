@@ -3,7 +3,9 @@ module Spree
     belongs_to :user
     belongs_to :address
     belongs_to :subscription_product
-    has_and_belongs_to_many :shipped_products, class_name: 'Spree::Product'
+    has_many   :shipped_products, through: :orders, source: :products
+
+    has_and_belongs_to_many :orders
 
     after_create :create_order
 
@@ -22,7 +24,7 @@ module Spree
         state: 'confirm'
       )
 
-      shipped_products << random_product
+      orders << order
       add_line_item(order)
       set_next_order_date
 
@@ -38,7 +40,7 @@ module Spree
     def random_product
       @random_product ||= Product.unsubscribable.
         active.
-        where.not(id: shipped_products).
+        where.not('spree_products.id' => shipped_products.map(&:id)).
         order("RANDOM()").
         limit(1).
         first

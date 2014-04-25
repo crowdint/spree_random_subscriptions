@@ -21,8 +21,8 @@ describe Spree::Subscription do
 
     context 'with some shipped_products' do
       before do
-        subject.shipped_products << create(:product)
-        subject.shipped_products << create(:product)
+        subject.orders << create(:order)
+        subject.orders << create(:order)
       end
 
       it 'returns the not subscription product' do
