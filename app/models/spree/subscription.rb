@@ -3,9 +3,11 @@ module Spree
     belongs_to :user
     belongs_to :address
     belongs_to :subscription_product
-    has_and_belongs_to_many :shipped_products, class_name: 'Spree::Product'
+    has_many   :shipped_products, through: :orders, source: :products
 
-    before_create :set_next_order_date
+    has_and_belongs_to_many :orders
+
+    after_create :create_order
 
     scope :send_today, -> { where next_date: Time.zone.today }
 
@@ -22,7 +24,9 @@ module Spree
         state: 'confirm'
       )
 
+      orders << order
       add_line_item(order)
+      set_next_order_date
 
       order.next
 
@@ -34,9 +38,9 @@ module Spree
     end
 
     def random_product
-      Product.unsubscribable.
+      @random_product ||= Product.unsubscribable.
         active.
-        where.not(id: shipped_products).
+        where.not('spree_products.id' => shipped_products.map(&:id)).
         order("RANDOM()").
         limit(1).
         first
@@ -45,7 +49,9 @@ module Spree
     private
 
     def set_next_order_date
-      self.next_date = Time.zone.today + 1
+      if paid && missing_items > 0
+        update_attribute :next_date , created_at + shipped_products.count.months
+      end
     end
 
     def add_line_item(order)
