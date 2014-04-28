@@ -20,6 +20,7 @@ require 'database_cleaner'
 require 'ffaker'
 require 'capybara/rspec'
 require 'capybara/rails'
+require 'sidekiq/testing'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -89,4 +90,21 @@ RSpec.configure do |config|
   end
 
   config.fail_fast = ENV['FAIL_FAST'] || false
+
+  config.before(:each) do |example_method|
+    # Clears out the jobs for tests using the fake testing
+    Sidekiq::Worker.clear_all
+    # Get the current example from the example_method object
+    example = example_method.example
+
+    if example.metadata[:sidekiq] == :fake
+      Sidekiq::Testing.fake!
+    elsif example.metadata[:sidekiq] == :inline
+      Sidekiq::Testing.inline!
+    elsif example.metadata[:type] == :acceptance
+      Sidekiq::Testing.inline!
+    else
+      Sidekiq::Testing.fake!
+    end
+  end
 end
