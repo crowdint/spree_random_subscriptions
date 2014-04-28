@@ -10,15 +10,26 @@ module Spree
       products.subscribable
     end
 
-    def create_subscriptions!
+    def check_subscriptions!
       subscription_products.map do |sp|
-        Subscription.create(
-          user: user,
-          subscription_product: sp,
-          address: ship_address,
-          limit: sp.limit
-        )
+        subscription = find_subscription(user,sp)
+        if subscription
+          subscription.update(limit: subscription.limit += sp.limit)
+        else
+          Subscription.create(
+            user: user,
+            subscription_product: sp,
+            address: ship_address,
+            limit: sp.limit
+          )
+        end
       end
+    end
+
+    private
+
+    def find_subscription(user, product)
+      Subscription.find_by(user:user, subscription_product: product)
     end
   end
 end
