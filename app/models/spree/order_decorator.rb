@@ -1,11 +1,13 @@
 module Spree
   Order.class_eval do
     # NOTE: Remove when merged https://github.com/spree/spree/pull/4615
+    remove_method :products
+    remove_method :variants
     has_many :products, through: :variants
     has_many :variants, through: :line_items
 
     def subscription_products
-      Spree::SubscriptionProduct.joins(variants: :line_items).where('"spree_line_items"."id" IN (?)', line_items.ids)
+      products.subscribable
     end
 
     def create_subscriptions!
