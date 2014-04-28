@@ -18,6 +18,8 @@ require File.expand_path('../dummy/config/environment.rb',  __FILE__)
 require 'rspec/rails'
 require 'database_cleaner'
 require 'ffaker'
+require 'capybara/rspec'
+require 'capybara/rails'
 require 'sidekiq/testing'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -49,6 +51,8 @@ RSpec.configure do |config|
   # visit spree.admin_path
   # current_path.should eql(spree.products_path)
   config.include Spree::TestingSupport::UrlHelpers
+
+  config.include Spree::TestingSupport::ControllerRequests
 
   # == Mock Framework
   #
