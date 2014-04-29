@@ -5,5 +5,5 @@ Spree::Core::Engine.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  get '/renew/:id', to: 'renew#edit'
+  resources :renew, only: :edit
 end

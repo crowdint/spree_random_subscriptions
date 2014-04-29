@@ -27,6 +27,7 @@ module Spree
       orders << order
       add_line_item(order)
       set_next_order_date
+      renew_notify
 
       order.next
 
@@ -51,6 +52,12 @@ module Spree
     def set_next_order_date
       if paid && missing_items > 0
         update_attribute :next_date , created_at + shipped_products.count.months
+      end
+    end
+
+    def renew_notify
+      if missing_items <= 1
+        Spree::RenewMailer.send_reminder(self).deliver
       end
     end
 
