@@ -23,6 +23,10 @@ feature 'As an Admin I can manage subscriptions' do
     scenario 'displays subscriptions issues quantity' do
       expect(page).to have_content subscription.limit
     end
+
+    scenario 'displays subscriptions state' do
+      expect(page).to have_content subscription.state
+    end
   end
 
   context 'When there aren\'t subscriptions' do

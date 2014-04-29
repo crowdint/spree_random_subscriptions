@@ -22,6 +22,10 @@ feature 'User can manage his subscriptions' do
     scenario 'displays issues quantity' do
       expect(page).to have_content subscription.limit
     end
+
+    scenario 'displays subscription state' do
+      expect(page).to have_content subscription.state
+    end
   end
 
   context 'When not having subscriptions' do
