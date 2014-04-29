@@ -14,7 +14,7 @@ describe Spree::Admin::SubscriptionsController do
     end
   end
 
-  describe 'DELET destroy' do
+  describe 'DELETE destroy' do
     before do
       spree_delete :destroy, id: subscription.id
     end
