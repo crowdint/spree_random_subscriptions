@@ -13,11 +13,11 @@ module Spree
 
     state_machine initial: :active do
       event :cancel do
-        transition :active => :cancelled
+        transition active: :cancelled
       end
 
       event :activate do
-        transition :cancelled => :active
+        transition cancelled: :active
       end
     end
 
