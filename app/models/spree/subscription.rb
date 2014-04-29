@@ -34,7 +34,7 @@ module Spree
     end
 
     def self.create_order(subscription_id)
-      Spree::Subscription.find(subscription_id).create_order
+      self.find(subscription_id).create_order
     end
 
     def random_product
