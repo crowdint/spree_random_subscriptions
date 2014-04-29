@@ -6,4 +6,9 @@ Spree::Core::Engine.routes.draw do
   end
 
   resources :renew, only: :edit
+
+  namespace :admin do
+    resources :subscriptions
+  end
 end
+

@@ -11,6 +11,16 @@ module Spree
 
     scope :send_today, -> { where next_date: Time.zone.today }
 
+    state_machine initial: :active do
+      event :cancel do
+        transition active: :cancelled
+      end
+
+      event :activate do
+        transition cancelled: :active
+      end
+    end
+
     def missing_items
       limit - shipped_products.count
     end
