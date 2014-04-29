@@ -3,5 +3,7 @@
   %td= l subscription.created_at.to_date
   %td= subscription.limit
   %td= subscription.state
-  %td= link_to 'Cancel', '#'
+  %td= button_to 'Cancel', spree.admin_subscription_path(subscription),
+    method: :delete,
+    data: { confirm: t(:cancel_confirmation, scope: :subscriptions) }
 
