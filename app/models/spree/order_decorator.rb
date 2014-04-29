@@ -12,7 +12,7 @@ module Spree
 
     def check_subscriptions!
       subscription_products.map do |sp|
-        subscription = find_subscription(user,sp)
+        subscription = find_subscription(user, sp)
         if subscription
           subscription.update(limit: subscription.limit += sp.limit)
         else
@@ -29,7 +29,7 @@ module Spree
     private
 
     def find_subscription(user, product)
-      Subscription.find_by(user:user, subscription_product: product)
+      Subscription.find_by(user: user, subscription_product: product)
     end
   end
 end

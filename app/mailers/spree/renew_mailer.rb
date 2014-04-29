@@ -3,10 +3,10 @@ module Spree
     def send_reminder(subscription)
       @subscription = subscription
 
-      @subject = if subscription.missing_items == 1 
-        :subscription_about_to_end
+      if subscription.missing_items == 1
+        @subject = :subscription_about_to_end
       else
-        :subscription_finished
+        @subject = :subscription_finished
       end
 
       mail(

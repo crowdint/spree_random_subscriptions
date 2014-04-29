@@ -4,7 +4,11 @@ describe Spree::RenewController do
   describe '#new' do
     let(:subscription_product) { create :subscription_product }
     let(:variant) { subscription_product.master }
-    let(:user) { mock_model(Spree::User, spree_api_key: 'fake', last_incomplete_spree_order: nil) }
+    let(:user) do mock_model(
+      Spree::User,
+      spree_api_key: 'fake',
+      last_incomplete_spree_order: nil)
+    end
 
     before do
       controller.stub current_spree_user: user
