@@ -1,0 +1,17 @@
+- content_for :page_title do
+  = t(:listing_subscriptions, scope: [:subscriptions, :admin])
+
+- if @subscriptions.any?
+  %table#listing_orders.index.responsive
+    %thead
+      %tr{ data: { hook: 'admin_subscriptions_index_headers' } }
+        %th= t(:subscribed_product, scope: :subscriptions)
+        %th= t(:subscribed_on, scope: :subscriptions)
+        %th= t(:issues, scope: :subscriptions)
+        %th= t(:actions, scope: :subscriptions)
+    %tbody
+      = render @subscriptions
+- else
+  .alpha.twelve.columns.no-objects-found
+    = t(:no_subscriptions, scope: [:subscriptions, :admin])
+
