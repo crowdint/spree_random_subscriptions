@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Spree::RenewMailer do
   describe '#send_reminder' do
