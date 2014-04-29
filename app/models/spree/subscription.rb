@@ -11,6 +11,8 @@ module Spree
 
     scope :send_today, -> { where next_date: Time.zone.today }
 
+    TYPES = {:monthly, :pay_once}
+
     def missing_items
       limit - shipped_products.count
     end
@@ -44,6 +46,10 @@ module Spree
         order("RANDOM()").
         limit(1).
         first
+    end
+
+    def monthly?
+      type == :monthly
     end
 
     private
