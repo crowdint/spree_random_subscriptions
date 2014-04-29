@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'spec_helper'
 include Warden::Test::Helpers
 
 feature 'User can manage his subscriptions' do
@@ -35,7 +34,7 @@ feature 'User can manage his subscriptions' do
 
     scenario 'displays no subscriptions yet message' do
       expect(page).to have_content I18n.t(:no_subscriptions_yet,
-                                          scope: :random_subscriptions)
+                                          scope: :subscriptions)
     end
   end
 end
