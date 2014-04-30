@@ -1,5 +1,6 @@
 SpreeRandomSubscriptions
 ========================
+[![Build Status](https://travis-ci.org/stevenbarragan/spree_random_subscriptions.svg?branch=master)](https://travis-ci.org/stevenbarragan/spree_random_subscriptions)
 
 Allows you to have subscription products.
 
