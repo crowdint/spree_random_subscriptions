@@ -1,17 +1,38 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Spree::Order do
-  describe '#create_subscriptions!' do
-    before do
-      create :product
+  let(:subscription_product) { create :subscription_product }
+  let(:variant) { create :variant, product: subscription_product }
+  let(:line_item) { create :line_item, variant: variant }
+  let(:subject) { line_item.order }
+
+  before do
+    create :product
+  end
+
+  describe '#check_subscriptions!' do
+    context 'creates a subscription' do
+      it 'adds a subscription' do
+        expect { subject.check_subscriptions! }.to change {
+          Spree::Subscription.count
+        }.by(1)
+      end
     end
 
-    let(:variant) { create :variant, product: create(:subscription_product) }
-    let(:line_item) { create :line_item, variant: variant }
-    let(:order) { line_item.order }
+    context 'updated a subscription' do
+      let!(:subscription) do
+        create(:subscription,
+               subscription_product: subscription_product,
+               user: subject.user
+              )
+      end
 
-    it 'creates one subscription' do
-      expect{ order.create_subscriptions! }.to change{ Spree::Subscription.count }.by(1)
+      it 'updates subscription limit' do
+        expect { subject.check_subscriptions! }.to change {
+          subscription.reload
+          subscription.limit
+        }.by(12)
+      end
     end
   end
 end
