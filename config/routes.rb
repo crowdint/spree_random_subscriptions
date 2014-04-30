@@ -7,6 +7,8 @@ Spree::Core::Engine.routes.draw do
 
   resources :silent_post, only: [:create]
 
+  resources :renew, only: :edit
+
   namespace :admin do
     resources :subscriptions
   end
