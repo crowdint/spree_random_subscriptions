@@ -56,10 +56,6 @@ module Spree
         first
     end
 
-    def monthly?
-      type == :monthly
-    end
-
     private
 
     def set_next_order_date
