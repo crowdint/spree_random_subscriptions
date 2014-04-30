@@ -1,8 +1,12 @@
 en:
-  random_subscriptions:
-    current_subscriptions: Subscriptions
-    no_subscriptions_yet: You don't have any subscription yet
-    subscribed_product: Subscribed Product
-    issues: Total Issues
+  subscriptions:
+    admin:
+      listing_subscriptions: Listing Subscriptions
+      no_subscriptions: There are no subscriptions yet
     actions: Actions
+    cancel_confirmation: Are you sure you want to cancel this subscription?
+    current_subscriptions: Subscriptions
+    issues: Total Issues
+    no_subscriptions_yet: You don't have any subscription yet
     subscribed_on: Subscription Date
+    subscribed_product: Subscribed Product

@@ -1,15 +1,16 @@
-%h3= t(:my_subscriptions, scope: :random_subscriptions)
+%h3= t(:my_subscriptions, scope: :subscriptions)
 - if @subscriptions.present?
   %table#my-subscriptions
     %thead
       %tr
-        %th= t(:subscribed_product, scope: :random_subscriptions)
-        %th= t(:subscribed_on, scope: :random_subscriptions)
-        %th= t(:issues, scope: :random_subscriptions)
-        %th= t(:actions, scope: :random_subscriptions)
+        %th= t(:subscribed_product, scope: :subscriptions)
+        %th= t(:subscribed_on, scope: :subscriptions)
+        %th= t(:issues, scope: :subscriptions)
+        %th= t(:status, scope: :subscriptions)
+        %th= t(:actions, scope: :subscriptions)
     %tbody
       = render @subscriptions
 - else
-  %p= t(:no_subscriptions_yet, scope: :random_subscriptions)
+  %p= t(:no_subscriptions_yet, scope: :subscriptions)
 %br
 
