@@ -29,7 +29,7 @@ module Spree
     end
 
     def recurring?
-      products.map(&:recurring).any?
+      products.recurring.count > 0
     end
 
     private
