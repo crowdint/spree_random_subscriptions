@@ -65,9 +65,9 @@ describe Spree::Payment do
           response.should_receive(:success?).and_return(false)
 
           expect(payment).to receive(:failure)
-          expect(payment).to receive(:gateway_error).with(response).and_raise(Spree::Core::GatewayError)
 
-          payment.recurring!
+          lambda { payment.recurring! }.should raise_error(Spree::Core::GatewayError)
+
         end
       end
     end
