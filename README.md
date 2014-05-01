@@ -6,7 +6,7 @@ Allows you to have subscription products.
 
 When a product subscription is paid, a subscription is created, and when a subscription is created an order with the next item to ship is created.
 
-The next item to ship is base in all not subscription products, and it's pick randomly.
+The next item to ship is picked randomly from all non-subscription in-stock products.
 
 Installation
 ------------
