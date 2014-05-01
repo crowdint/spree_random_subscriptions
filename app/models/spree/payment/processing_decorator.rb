@@ -1,10 +1,10 @@
 Spree::Payment::Processing.class_eval do
 
-  def process!
+  durably_decorate :process!,  mode: 'soft', sha: '5292f513d88d8b0aa834456dfd0f567a792992eb' do
     if order.recurring?
       recurring!
     else
-      super()
+      original_process!
     end
   end
 
