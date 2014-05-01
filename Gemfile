@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'capybara'
+gem 'durable_decorator_rails'
 gem 'haml-rails'
 gem 'pry-rails'
 gem 'sprockets', '<= 2.11.0'

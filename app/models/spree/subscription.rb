@@ -4,6 +4,8 @@ module Spree
     belongs_to :address
     belongs_to :subscription_product
     has_many   :shipped_products, through: :orders, source: :products
+    belongs_to :original_order, class_name: 'Spree::Order'
+    belongs_to :payment
 
     has_and_belongs_to_many :orders
 
@@ -19,6 +21,12 @@ module Spree
       event :activate do
         transition cancelled: :active
       end
+
+      after_transition any => :cancel, do: :cancel_recurring
+    end
+
+    def cancel_recurring
+      payment.cancel_recurring(x_subscription_id)
     end
 
     def missing_items

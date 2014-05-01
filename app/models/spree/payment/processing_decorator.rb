@@ -30,6 +30,10 @@ Spree::Payment::Processing.class_eval do
     })
   end
 
+  def cancel_recurring(recurring_id)
+    payment_method.provider.cancel_recurring(recurring_id)
+  end
+
   private
 
   def handle_recurring_response(response)
