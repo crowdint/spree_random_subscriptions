@@ -17,7 +17,7 @@ Spree::Payment::Processing.class_eval do
   end
 
   def recurring_options
-    @recurring_options ||= gateway_options.merge({
+    @recurring_options ||= gateway_options.merge(
       duration: {
         start_date: Time.now.strftime('%Y-%m-%d'),
         occurrences: 12
@@ -27,7 +27,7 @@ Spree::Payment::Processing.class_eval do
         first_name: order.billing_address.try(:first_name),
         last_name: order.billing_address.try(:last_name),
       }
-    })
+    )
   end
 
   def cancel_recurring(recurring_id)
@@ -41,11 +41,11 @@ Spree::Payment::Processing.class_eval do
 
     if response.success?
       order.x_subscription_id = response.params['x_subscription_id']
-      self.complete!
+      complete!
     else
-      self.failure
+      failure
       gateway_error(response)
     end
-
   end
 end
+

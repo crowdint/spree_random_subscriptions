@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Spree::Payment do
   describe '#create_subscriptions' do
@@ -11,7 +11,7 @@ describe Spree::Payment do
     end
   end
 
-  context "processing" do
+  context 'processing' do
     let(:payment) { create :payment }
     let(:product) { create(:subscription_product, recurring: true) }
     let(:line_item) { create :line_item, variant: product.master }
@@ -21,9 +21,9 @@ describe Spree::Payment do
       payment.order = order
     end
 
-    describe "process!" do
-      context "order have recurring products" do
-        it "create a recurring transaction" do
+    describe 'process!' do
+      context 'order have recurring products' do
+        it 'create a recurring transaction' do
           expect(payment).to receive :recurring!
 
           payment.process!
@@ -31,23 +31,25 @@ describe Spree::Payment do
       end
     end
 
-    describe "recurring_options" do
+    describe 'recurring_options' do
       it {payment.recurring_options.should == recurring_options(payment)}
     end
 
-    describe "recurring!" do
+    describe 'recurring!' do
       let(:payment_method) {payment.payment_method}
       let(:response) {double(ActiveMerchant::Billing::Response)}
 
-      context "success recurring payment" do
-        it "complete the payment" do
-          payment_method.should_receive(:recurring).with(payment.money.money.cents,
-            payment.source,
-            payment.recurring_options
-          ).and_return(response)
+      context 'success recurring payment' do
+        it 'complete the payment' do
+          payment_method.should_receive(:recurring).
+            with(payment.money.money.cents,
+                 payment.source,
+                 payment.recurring_options
+                ).and_return(response)
 
           response.should_receive(:success?).and_return(true)
-          response.should_receive(:params).and_return({'x_recurring_id' => 'AB123'})
+          response.should_receive(:params).
+            and_return('x_recurring_id' => 'AB123')
 
           expect(payment).to receive(:complete!)
 
@@ -55,8 +57,8 @@ describe Spree::Payment do
         end
       end
 
-      context "failed recurring payment" do
-        it "failure the payment" do
+      context 'failed recurring payment' do
+        it 'failure the payment' do
           payment_method.should_receive(:recurring).with(payment.money.money.cents,
             payment.source,
             payment.recurring_options
@@ -88,3 +90,4 @@ def recurring_options(payment)
     }
   })
 end
+
