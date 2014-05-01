@@ -7,4 +7,4 @@ class Spree::SilentPostController < ApplicationController
 
     render nothing: true
   end
-ond
+end
