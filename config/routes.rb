@@ -5,6 +5,8 @@ Spree::Core::Engine.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  resources :silent_post, only: [:create]
+
   resources :renew, only: :edit
 
   namespace :admin do

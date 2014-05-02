@@ -6,6 +6,10 @@ module Spree
     has_many :products, through: :variants
     has_many :variants, through: :line_items
 
+    has_many :subscription
+
+    attr_accessor :x_subscription_id
+
     def subscription_products
       products.subscribable
     end
@@ -13,10 +17,12 @@ module Spree
     def check_subscriptions!
       subscription_products.map do |sp|
         subscription = find_subscription(user, sp)
+
         if subscription
           subscription.update(limit: subscription.limit += sp.limit)
         else
           Subscription.create(
+            original_order: self,
             user: user,
             subscription_product: sp,
             address: ship_address,
@@ -24,6 +30,10 @@ module Spree
           )
         end
       end
+    end
+
+    def recurring?
+      products.recurring.count > 0
     end
 
     private

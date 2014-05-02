@@ -5,7 +5,8 @@ module Spree
     end
 
     def create_subscriptions!
-      order.create_subscriptions!
+      order.check_subscriptions!
     end
   end
 end
+
