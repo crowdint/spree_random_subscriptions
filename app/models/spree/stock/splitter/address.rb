@@ -15,7 +15,8 @@ module Spree
         def split_by_address(package)
           addresses = Hash.new { |hash, key| hash[key] = [] }
           package.contents.each do |item|
-            addresses[item.line_item.ship_address_id] << item
+            address_id = item.line_item.ship_address.try(:id)
+            addresses[address_id] << item
           end
           build_packages addresses
         end
