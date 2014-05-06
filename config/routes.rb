@@ -12,7 +12,5 @@ Spree::Core::Engine.routes.draw do
   namespace :admin do
     resources :subscriptions
   end
-
-  resources :subscription_products
 end
 
