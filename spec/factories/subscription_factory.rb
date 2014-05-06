@@ -1,6 +1,5 @@
 FactoryGirl.define do
-  factory :subscription, class: Spree::Subscription do
-    before(:create) do
+  factory :subscription, class: Spree::Subscription do before(:create) do
       create(:product) if Spree::Product.unsubscribable.count == 0
     end
 

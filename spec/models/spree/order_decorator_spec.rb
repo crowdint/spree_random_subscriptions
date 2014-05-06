@@ -35,4 +35,34 @@ describe Spree::Order do
       end
     end
   end
+
+  describe '#split_recurring_payments' do
+    let(:recurring_product) { create :recurring_product }
+
+    let(:attributes) do
+      {"coupon_code"=>"",
+       "payments_attributes"=> [{
+          "amount"=> subject.total,
+          "payment_method_id"=>"6",
+            "source_attributes"=>
+          {"number"=>"4007 0000 0000 0027",
+           "expiry"=>"12 / 19",
+           "verification_value"=>"857",
+           "cc_type"=>"visa",
+           "name"=>"Steven Barragan"}
+        }]
+      }
+    end
+
+    before do
+      subject.contents.add(recurring_product.master)
+    end
+
+    it 'creates a new payment metod' do
+      result = subject.split_recurring_payments(attributes)
+
+      expect(attributes['payments_attributes'].first['subscription_product_ids']).
+        to eq [recurring_product.id]
+    end
+  end
 end

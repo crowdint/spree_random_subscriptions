@@ -18,6 +18,10 @@ FactoryGirl.define do
 
     factory :subscription_product do
       tax_category { |r| Spree::TaxCategory.first || r.association(:tax_category) }
+
+      factory :recurring_product do
+        recurring true
+      end
     end
   end
 end
