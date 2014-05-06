@@ -36,7 +36,7 @@ module Spree
       end
     end
 
-    # This code was complety taken from spree core except for the line marked
+    # This code was completely taken from spree core except for the line marked
     # https://github.com/spree/spree/blob/master/core/app/models/spree/order/checkout.rb#L211
     def update_from_params(params, permitted_params)
       success = false
@@ -81,7 +81,7 @@ module Spree
       original['amount'] -= recurring_total
       new_payments = []
 
-      original['subscription_product_ids'] = subscription_products.norecurring.map &:id
+      original['subscription_product_ids'] = subscription_products.not_recurrent.map &:id
 
       subscription_products.recurrent.select{ |p| p.unpaid? }.map do |p|
         new_payment = original.clone

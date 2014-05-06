@@ -3,6 +3,6 @@ module Spree
     scope :unsubscribable, -> { where type: nil }
     scope :subscribable, -> { where type: 'Spree::SubscriptionProduct' }
     scope :recurrent, -> { where recurring: true }
-    scope :norecurring, -> { where recurring: false }
+    scope :not_recurrent, -> { where recurring: false }
   end
 end
