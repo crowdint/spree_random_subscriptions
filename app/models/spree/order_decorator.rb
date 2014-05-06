@@ -58,7 +58,7 @@ module Spree
         end
 
         # Lines added
-        if state == 'payment' &&
+        if state == 'payment'
           invalidate_old_payments
           attributes = split_recurring_payments(attributes) if has_subscriptions?
         end
