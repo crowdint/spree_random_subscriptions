@@ -8,6 +8,8 @@ describe Spree::Order do
 
   before do
     create :product
+
+    subject.update_totals
   end
 
   describe '#check_subscriptions!' do
@@ -54,15 +56,26 @@ describe Spree::Order do
       }
     end
 
-    before do
-      subject.contents.add(recurring_product.master)
+    context 'without recurring product' do
+      it 'stays the same' do
+        result = subject.split_recurring_payments(attributes)
+
+        expect(result['payments_attributes'].first['subscription_product_ids']).
+          to eq [subscription_product.id]
+      end
     end
 
-    it 'creates a new payment metod' do
-      result = subject.split_recurring_payments(attributes)
+    context 'with recurring product' do
+      before do
+        subject.contents.add(recurring_product.master)
+      end
 
-      expect(attributes['payments_attributes'].first['subscription_product_ids']).
-        to eq [recurring_product.id]
+      it 'creates a new payment method' do
+        result = subject.split_recurring_payments(attributes)
+
+        expect(result['payments_attributes'].first['subscription_product_ids']).
+          to eq [recurring_product.id]
+      end
     end
   end
 end
