@@ -2,7 +2,7 @@ module Spree
   OrderContents.class_eval do
 
     private
-    def add_to_line_item(variant, quantity, currency=nil, shipment=nil)
+    def add_to_line_item(variant, quantity, currency = nil, shipment = nil)
       @item_to_add = grab_line_item_by_variant(variant)
 
       if @item_to_add && !@item_to_add.product_subscription?
