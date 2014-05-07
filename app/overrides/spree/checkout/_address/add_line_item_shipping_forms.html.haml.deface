@@ -5,3 +5,6 @@
          as: :item,
          locals: { form: form }
 
+
+:coffee
+  $ -> new MultiShippingAddress.SameAsBilling.CopyBillToShip ($ '#checkout_form_address')
