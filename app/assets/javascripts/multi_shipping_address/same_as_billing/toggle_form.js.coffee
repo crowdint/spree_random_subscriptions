@@ -4,8 +4,11 @@ class MultiShippingAddress.SameAsBilling.ToggleForm
   constructor: (@$shipAddress) ->
     @bindCheckbox()
 
+  inputs: ->
+    @$shipAddress.find('.inner').find('input, select')
+
   isChecked: ->
-    @$shipAddress.find('input[type=checkbox]').attr('checked')
+    @$shipAddress.find('input[type=checkbox]').is(':checked')
 
   bindCheckbox: ->
     @$shipAddress.on 'click.checkbox', 'input[type=checkbox]', (check) =>
@@ -13,5 +16,5 @@ class MultiShippingAddress.SameAsBilling.ToggleForm
 
   toggleAddressFields: ($checkbox) ->
     @$shipAddress.find('.inner').
-      toggle $checkbox.attr('checked')
+      slideToggle !$checkbox.is(':checked')
 
