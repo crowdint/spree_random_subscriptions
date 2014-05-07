@@ -16,5 +16,10 @@ module SpreeRandomSubscriptions
     end
 
     config.to_prepare &method(:activate).to_proc
+
+    initializer 'spree.random_subscriptions.stock_splitters' do |app|
+      app.config.spree.stock_splitters.unshift(Spree::Stock::Splitter::Address)
+    end
+
   end
 end

@@ -3,6 +3,10 @@ module Spree
     attr_accessor :wrap_cost
     attr_accessor :wrap_type
 
+    def subscription?
+      true
+    end
+
     def self.generate(gender, recurring, wrap_type, limit = nil, price = 11, wrap_cost = 2)
       product = new(
         recurring: recurring,

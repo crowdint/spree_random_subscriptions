@@ -32,4 +32,10 @@ describe Spree::SubscriptionProduct do
       it { expect(subject.price.to_f).to eq 78 }
     end
   end
+
+  describe '#subscription?' do
+    let(:subcription_product) { create(:subscription_product) }
+
+    specify { expect(subcription_product.subscription?).to be_true }
+  end
 end
