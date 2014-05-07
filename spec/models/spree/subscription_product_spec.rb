@@ -31,6 +31,16 @@ describe Spree::SubscriptionProduct do
 
       it { expect(subject.price.to_f).to eq 78 }
     end
+
+    context 'woman, no recurring, none wrapping' do
+      let(:subject) { described_class.generate('woman', false, 'none') }
+
+      it { expect(subject.name).to eq 'Socks for woman' }
+
+      it { expect(subject.description).to eq "- For woman\n- Price: $11\n" }
+
+      it { expect(subject.price.to_f).to eq 11 }
+    end
   end
 
   describe '#subscription?' do
