@@ -8,6 +8,8 @@ describe Spree::Order do
 
   before do
     create :product
+
+    subject.update_totals
   end
 
   describe '#check_subscriptions!' do
@@ -32,6 +34,47 @@ describe Spree::Order do
           subscription.reload
           subscription.limit
         }.by(12)
+      end
+    end
+  end
+
+  describe '#split_recurring_payments' do
+    let(:recurring_product) { create :recurring_product }
+
+    let(:attributes) do
+      {"coupon_code"=>"",
+       "payments_attributes"=> [{
+          "amount"=> subject.total,
+          "payment_method_id"=>"6",
+            "source_attributes"=>
+          {"number"=>"4007 0000 0000 0027",
+           "expiry"=>"12 / 19",
+           "verification_value"=>"857",
+           "cc_type"=>"visa",
+           "name"=>"Steven Barragan"}
+        }]
+      }
+    end
+
+    context 'without recurring product' do
+      it 'stays the same' do
+        result = subject.split_recurring_payments(attributes)
+
+        expect(result['payments_attributes'].first['subscription_product_ids']).
+          to eq [subscription_product.id]
+      end
+    end
+
+    context 'with recurring product' do
+      before do
+        subject.contents.add(recurring_product.master)
+      end
+
+      it 'creates a new payment method' do
+        result = subject.split_recurring_payments(attributes)
+
+        expect(result['payments_attributes'].first['subscription_product_ids']).
+          to eq [recurring_product.id]
       end
     end
   end

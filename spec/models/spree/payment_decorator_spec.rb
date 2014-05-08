@@ -13,12 +13,9 @@ describe Spree::Payment do
 
   context 'processing' do
     let(:payment) { create :payment }
-    let(:product) { create(:subscription_product, recurring: true) }
-    let(:line_item) { create :line_item, variant: product.master }
-    let(:order) { line_item.order }
 
     before do
-      payment.order = order
+      payment.subscription_products << create(:recurring_product)
     end
 
     describe 'process!' do
