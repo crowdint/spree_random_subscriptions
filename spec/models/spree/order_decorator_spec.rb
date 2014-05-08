@@ -57,24 +57,38 @@ describe Spree::Order do
     end
 
     context 'without recurring product' do
-      it 'stays the same' do
-        result = subject.split_recurring_payments(attributes)
+      let(:new_payments) { subject.split_recurring_payments(attributes) }
 
-        expect(result['payments_attributes'].first['subscription_product_ids']).
+      it 'stays the same' do
+        expect(new_payments['payments_attributes'].first['subscription_product_ids']).
           to eq [subscription_product.id]
+      end
+
+      it 'mainteins the same price' do
+        total = new_payments['payments_attributes'].inject(0) { |sum, p| sum + p['amount']}
+
+        expect(total).to eq subject.total
       end
     end
 
     context 'with recurring product' do
+      let(:new_payments) { subject.split_recurring_payments(attributes) }
+
       before do
         subject.contents.add(recurring_product.master)
       end
 
       it 'creates a new payment method' do
-        result = subject.split_recurring_payments(attributes)
-
-        expect(result['payments_attributes'].first['subscription_product_ids']).
+        expect(new_payments['payments_attributes'].first['subscription_product_ids']).
           to eq [recurring_product.id]
+      end
+
+      context 'with a recurring first month wrap' do
+        let(:recurring_product) { create :recurring_product, name: 'For man - first month wrap' }
+
+        it 'charges $2 for wrapping' do
+          expect(new_payments['payments_attributes'].last['ammount'].to_f).to eq subscription_product.price + 2
+        end
       end
     end
   end

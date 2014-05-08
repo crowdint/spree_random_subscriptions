@@ -73,9 +73,7 @@ module Spree
     end
 
     def calculate_price
-      if recurring
-        self.price += @wrap_cost if @wrap_type != 'none'
-      else
+      unless recurring
         self.price += @wrap_cost if @wrap_type == 'every month'
         self.price *= limit
         self.price += @wrap_cost if @wrap_type == 'first month'

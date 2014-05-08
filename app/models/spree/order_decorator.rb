@@ -67,24 +67,10 @@ module Spree
     def split_recurring_payments(attributes)
       original = attributes['payments_attributes'].first
 
-      recurring_total = subscription_products.
-        recurrent.
-        select{ |p| p.unpaid? }.to_a.
-        inject(0){ |sum, p| sum + p.price }
-
-      original['amount'] -= recurring_total
-      new_payments = []
-
+      original['amount'] += calculate_first_month_wrap_costs - calculate_recurrings_price
       original['subscription_product_ids'] = subscription_products.not_recurrent.map &:id
 
-      subscription_products.recurrent.select{ |p| p.unpaid? }.map do |p|
-        new_payment = original.clone
-
-        new_payment['amount'] = p.price
-        new_payment['subscription_product_ids'] = [p.id]
-
-        new_payments << new_payment
-      end
+      new_payments = create_recurring_payments(original)
 
       new_payments << original if original['amount'] > 0
       attributes['payments_attributes'] =  new_payments
@@ -93,6 +79,31 @@ module Spree
     end
 
     private
+
+    def create_recurring_payments(original_payment)
+      subscription_products.recurrent.select{ |p| p.unpaid? }.map do |p|
+        new_payment = original_payment.clone
+
+        new_payment['amount'] = p.price
+        new_payment['subscription_product_ids'] = [p.id]
+        new_payment
+      end
+    end
+
+    def calculate_recurrings_price
+      subscription_products.
+        recurrent.
+        select{ |p| p.unpaid? }.to_a.
+        inject(0){ |sum, p| sum + p.price }
+    end
+
+    def calculate_first_month_wrap_costs
+      subscription_products.
+        recurrent.
+        where('spree_products.name LIKE \'%first month%\'').
+        select{ |p| p.unpaid? }.
+        size * 2
+    end
 
     def find_subscription(user, product)
       Subscription.find_by(user: user, subscription_product: product)

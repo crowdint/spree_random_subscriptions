@@ -49,7 +49,7 @@ describe Spree::SubscriptionProduct do
 
       it { expect(subject.description).to eq "- For woman\n- Price: $11\n- Wrap first month $2\n" }
 
-      it { expect(subject.price.to_f).to eq 13 }
+      it { expect(subject.price.to_f).to eq 11 }
     end
 
     context 'man, recurring, every month wrapping' do
@@ -59,7 +59,7 @@ describe Spree::SubscriptionProduct do
 
       it { expect(subject.description).to eq "- For man\n- Price: $11\n- Wrap every month $2\n" }
 
-      it { expect(subject.price.to_f).to eq 13 }
+      it { expect(subject.price.to_f).to eq 11 }
     end
 
     context 'man, recurring, none wrapping' do
