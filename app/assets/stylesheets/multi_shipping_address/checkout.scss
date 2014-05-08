@@ -1,0 +1,14 @@
+#checkout_form_address {
+  legend {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    color: #00adee;
+    padding: 5px;
+    margin-left: 15px;
+  }
+}
+
+[data-hook=shipping_fieldset_wrapper] .inner { display: none }
+
+.same-as-billing:hover { cursor: pointer }

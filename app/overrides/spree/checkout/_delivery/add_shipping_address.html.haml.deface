@@ -1,0 +1,3 @@
+/ insert_bottom '.item-name'
+
+= item_shipping_address item.line_item

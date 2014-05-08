@@ -1,10 +1,16 @@
 - if item.product_subscription?
-  %fieldset{ data: { hook: '' } }
+  - item_address_id = "#{item.id}-address"
+  %fieldset{ id: item_address_id, class: 'js-shipping-address', data: { hook: '' } }
     = form.fields_for :line_items, item do |item_form|
       %legend{ align: 'center' }= "#{item.product.name} - #{item.id}"
+      = check_box_tag "#{item_address_id}-checkbox", '1', true,
+        class: 'same-as-billing'
+      = label_tag "#{item_address_id}-checkbox",
+        Spree.t(:use_billing_address),
+        class: 'same-as-billing'
       = item_form.fields_for :ship_address, item.build_default_ship_address do |ship_form|
         = render partial: 'spree/address/form', locals: { form: ship_form,
                                                           address_type: 'shipping',
                                                           address: item.ship_address,
-                                                          address_id: "subscription#{item.id}" }
+                                                          address_id: item_address_id }
 
