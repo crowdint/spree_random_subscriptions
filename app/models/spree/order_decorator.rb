@@ -1,8 +1,5 @@
 module Spree
   Order.class_eval do
-    has_many :products, through: :variants
-    has_many :variants, through: :line_items
-
     has_many :subscription
 
     attr_accessor :x_subscription_id
