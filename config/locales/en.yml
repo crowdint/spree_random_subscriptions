@@ -8,5 +8,6 @@ en:
     current_subscriptions: Subscriptions
     issues: Total Issues
     no_subscriptions_yet: You don't have any subscription yet
+    ship_to: 'Ships to:'
     subscribed_on: Subscription Date
     subscribed_product: Subscribed Product
