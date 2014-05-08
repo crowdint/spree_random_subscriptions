@@ -5,14 +5,11 @@ class MultiShippingAddress.SameAsBilling.CopyBillToShip
     @findShippingAddresses()
     @bindForm()
 
-  formValues: [
-    'firstname', 'lastname', 'address1',
-    'address2', 'city', 'country_id', 'state_id',
-    'zipcode', 'phone'
-  ]
-
-  shippingAddresses: []
   billAddress: null
+  shippingAddresses: []
+
+  getName: ($input) ->
+    $input.attr('name').match(/.*\[(.*)\]$/)[1]
 
   bindForm: ->
     @$form.on 'submit', =>
@@ -27,14 +24,14 @@ class MultiShippingAddress.SameAsBilling.CopyBillToShip
     @shippingAddresses.push(new MultiShippingAddress.SameAsBilling.ToggleForm ($ address))
 
   copyBillAddress: ->
-    @copyValues(address.inputs()) for address in @shippingAddresses when address.isChecked()
+    @copyFormValues(address.inputs()) for address in @shippingAddresses when address.isChecked()
 
-  copyValues: (addressInputs) ->
-    for value in @formValues
-      do (value) =>
-        query = "[name*=#{ value }]"
-        billValue = @billAddress.filter(query).val()
-        addressInputs.filter(query).val billValue
+  copyFormValues: (addressInputs) ->
+    @copyInputValue(($ input), addressInputs) for input in @billAddress
+
+  copyInputValue: ($input, addressInputs) ->
+    name = @getName $input
+    addressInputs.filter("[name*=#{ name }]").val $input.val()
 
   getBillAddress: ->
     @billAddress =  @$form.find('#billing').find('input, select')
