@@ -1,0 +1,10 @@
+- if item.product_subscription?
+  %fieldset{ data: { hook: '' } }
+    = form.fields_for :line_items, item do |item_form|
+      %legend{ align: 'center' }= "#{item.product.name} - #{item.id}"
+      = item_form.fields_for :ship_address, item.build_default_ship_address do |ship_form|
+        = render partial: 'spree/address/form', locals: { form: ship_form,
+                                                          address_type: 'shipping',
+                                                          address: item.ship_address,
+                                                          address_id: "subscription#{item.id}" }
+

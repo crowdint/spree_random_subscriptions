@@ -1,0 +1,7 @@
+/ insert_bottom "[data-hook='shipping_fieldset_wrapper']"
+
+= render partial: 'spree/line_items/ship_address',
+         collection: @order.line_items,
+         as: :item,
+         locals: { form: form }
+

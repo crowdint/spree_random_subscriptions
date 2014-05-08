@@ -1,0 +1,4 @@
+/ replace "erb[silent]:contains('address_id = address_type.chars.first')"
+
+- address_id ||= address_type.chars.first
+
