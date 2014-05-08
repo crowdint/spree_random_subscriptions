@@ -1,6 +1,3 @@
 / insert_bottom '.item-name'
 
-- if item.line_item.product_subscription?
-  %br
-  %b= t :ship_to, scope: :subscriptions
-  %span= item.line_item.ship_address.to_s
+= item_shipping_address item.line_item

@@ -1,0 +1,4 @@
+/ insert_bottom "[data-hook='order_item_description']"
+
+= item_shipping_address item
+
