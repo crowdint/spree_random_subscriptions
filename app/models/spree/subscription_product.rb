@@ -9,7 +9,6 @@ module Spree
 
     def self.generate(gender, recurring, wrap_type, limit = nil, price = 11, wrap_cost = 2)
       product = new(
-        recurring: recurring,
         wrap_cost: wrap_cost,
         name: '',
         description: '',
@@ -18,6 +17,7 @@ module Spree
       )
 
       product.gender = gender
+      product.set_recurring(recurring)
       product.original_price = price
       product.wrap = wrap_type
       product.recurring_limit = limit
@@ -27,21 +27,31 @@ module Spree
       product
     end
 
-    def original_price=(price)
-      self.price = price
-      self.description += "- Price: $#{price}\n"
-    end
-
     def gender=(gender)
       self.name += "Socks for #{gender}"
       self.description += "- For #{ gender }\n"
+    end
+
+    def set_recurring(recurring)
+      self.recurring = recurring
+
+      if self.recurring
+        self.name += " - Pay montly"
+      else
+        self.name += " - Pay once"
+      end
+    end
+
+    def original_price=(price)
+      self.price = price
+      self.description += "- Price: $#{price}\n"
     end
 
     def wrap=(wrap)
       unless wrap == 'none'
         self.name += " - Wrap #{ wrap }"
 
-        if wrap == 'first month'
+        if wrap == 'first month' || !limit
           self.description += "- Wrap #{ wrap } $#{ wrap_cost}\n"
         else
           self.description += "- Wrap #{ wrap } $#{ wrap_cost } X #{ limit } = $#{ wrap_cost * limit }\n"
@@ -58,11 +68,12 @@ module Spree
 
     def calculate_price
       if recurring
+        self.price += @wrap_cost if @wrap_type != 'none'
+      else
         self.price += @wrap_cost if @wrap_type == 'every month'
         self.price *= limit
+        self.price += @wrap_cost if @wrap_type == 'first month'
       end
-
-      self.price += @wrap_cost if @wrap_type == 'first month'
     end
   end
 end

@@ -3,29 +3,29 @@ require 'spec_helper'
 describe Spree::SubscriptionProduct do
   describe '.generate' do
     context 'man, no recurring, first month wrapping' do
-      let(:subject) { described_class.generate('man', false, 'first month') }
+      let(:subject) { described_class.generate('man', false, 'first month', 3) }
 
-      it { expect(subject.name).to eq 'Socks for man - Wrap first month' }
+      it { expect(subject.name).to eq 'Socks for man - Pay once - Wrap first month - By 3 months' }
 
       it { expect(subject.description).to eq "- For man\n- Price: $11\n- Wrap first month $2\n" }
 
-      it { expect(subject.price.to_f).to eq 13 }
+      it { expect(subject.price.to_f).to eq 35 }
     end
 
-    context 'woman, recurring, first month wrapping, 12 months' do
-      let(:subject) { described_class.generate('woman', true, 'first month', 12) }
+    context 'woman, no recurring, first month wrapping, 12 months' do
+      let(:subject) { described_class.generate('woman', false, 'first month', 12) }
 
-      it { expect(subject.name).to eq 'Socks for woman - Wrap first month - By 12 months' }
+      it { expect(subject.name).to eq 'Socks for woman - Pay once - Wrap first month - By 12 months' }
 
       it { expect(subject.description).to eq "- For woman\n- Price: $11\n- Wrap first month $2\n" }
 
       it { expect(subject.price.to_f).to eq 134 }
     end
 
-    context 'man, recurring, each month wrapping, 6 months' do
-      let(:subject) { described_class.generate('man', true, 'every month', 6) }
+    context 'man, no recurring, each month wrapping, 6 months' do
+      let(:subject) { described_class.generate('man', false, 'every month', 6) }
 
-      it { expect(subject.name).to eq 'Socks for man - Wrap every month - By 6 months' }
+      it { expect(subject.name).to eq 'Socks for man - Pay once - Wrap every month - By 6 months' }
 
       it { expect(subject.description).to eq "- For man\n- Price: $11\n- Wrap every month $2 X 6 = $12\n" }
 
@@ -33,11 +33,41 @@ describe Spree::SubscriptionProduct do
     end
 
     context 'woman, no recurring, none wrapping' do
-      let(:subject) { described_class.generate('woman', false, 'none') }
+      let(:subject) { described_class.generate('woman', false, 'none', 9) }
 
-      it { expect(subject.name).to eq 'Socks for woman' }
+      it { expect(subject.name).to eq 'Socks for woman - Pay once - By 9 months' }
 
       it { expect(subject.description).to eq "- For woman\n- Price: $11\n" }
+
+      it { expect(subject.price.to_f).to eq 99 }
+    end
+
+    context 'woman, recurring, first month wrapping' do
+      let(:subject) { described_class.generate('woman', true, 'first month') }
+
+      it { expect(subject.name).to eq 'Socks for woman - Pay montly - Wrap first month' }
+
+      it { expect(subject.description).to eq "- For woman\n- Price: $11\n- Wrap first month $2\n" }
+
+      it { expect(subject.price.to_f).to eq 13 }
+    end
+
+    context 'man, recurring, every month wrapping' do
+      let(:subject) { described_class.generate('man', true, 'every month') }
+
+      it { expect(subject.name).to eq 'Socks for man - Pay montly - Wrap every month' }
+
+      it { expect(subject.description).to eq "- For man\n- Price: $11\n- Wrap every month $2\n" }
+
+      it { expect(subject.price.to_f).to eq 13 }
+    end
+
+    context 'man, recurring, none wrapping' do
+      let(:subject) { described_class.generate('man', true, 'none') }
+
+      it { expect(subject.name).to eq 'Socks for man - Pay montly' }
+
+      it { expect(subject.description).to eq "- For man\n- Price: $11\n" }
 
       it { expect(subject.price.to_f).to eq 11 }
     end

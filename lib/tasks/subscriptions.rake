@@ -12,14 +12,20 @@ namespace :subscriptions do
     data = {
       gender: ['men', 'womem'],
       recurring: [true, false],
-      limt: [3,6,9,12],
+      limit: [3,6,9,12],
       wrap: ['every month', 'first month', 'none']
     }
 
     data[:gender].each do |gender|
-      date[:recurring].each do |recurring|
-        data[:wrap].each do |wrap|
-
+      data[:wrap].each do |wrap|
+        data[:recurring].each do |recurring|
+          if recurring
+            Spree::SubscriptionProduct.generate(gender, recurring, wrap)
+          else
+            data[:limit].each do |limit|
+              Spree::SubscriptionProduct.generate(gender, recurring, wrap, limit)
+            end
+          end
         end
       end
     end
