@@ -33,6 +33,15 @@ module Spree
       product
     end
 
+    def self.find_generated(gender, recurring, wrap_type, limit)
+      name = "Socks for #{ gender }"
+      name += recurring ? " - Pay montly" : " - Pay once"
+      name += " - Wrap #{ wrap_type }" unless wrap_type == 'none'
+      name += " - By #{ limit } months" if limit || limit.present?
+
+      find_by(name: name)
+    end
+
     def gender=(gender)
       self.name += "Socks for #{gender}"
       self.description += "- For #{ gender }\n"
