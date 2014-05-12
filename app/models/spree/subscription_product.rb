@@ -19,8 +19,10 @@ module Spree
         name: '',
         description: '',
         limit: limit,
-        shipping_category_id: 1
+        shipping_category_id: 1,
+        available_on: Time.zone.today
       )
+
 
       product.gender = gender
       product.set_recurring(recurring)
@@ -85,7 +87,7 @@ module Spree
       self.price += @wrap_cost if @wrap_type == 'every month'
 
       unless recurring
-        self.price *= limit
+        self.price *= self.limit
         self.price += @wrap_cost if @wrap_type == 'first month'
       end
     end
