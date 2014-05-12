@@ -23,12 +23,12 @@ module Spree
         available_on: Time.zone.today
       )
 
-
       product.gender = gender
       product.set_recurring(recurring)
       product.original_price = price
       product.wrap = wrap_type
       product.recurring_limit = limit
+      product.set_stock_items
 
       product.calculate_price
       product.save
@@ -90,6 +90,17 @@ module Spree
         self.price *= self.limit
         self.price += @wrap_cost if @wrap_type == 'first month'
       end
+    end
+    
+    def set_stock_items
+      stock_items = Spree::StockLocation.all.map do |l|
+        Spree::StockItem.new(
+          stock_location: l,
+          backorderable: true
+        )
+      end
+
+      self.stock_items = stock_items
     end
   end
 end
