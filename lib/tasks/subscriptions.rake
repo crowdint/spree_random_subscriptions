@@ -10,7 +10,7 @@ namespace :subscriptions do
   desc 'Generate subscription products'
   task generate_products: :environment do
     data = {
-      gender: ['men', 'womem'],
+      gender: ['men', 'women'],
       recurring: [true, false],
       limit: [3,6,9,12],
       wrap: ['every month', 'first month', 'none']
