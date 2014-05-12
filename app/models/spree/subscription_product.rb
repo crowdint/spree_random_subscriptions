@@ -19,8 +19,10 @@ module Spree
         name: '',
         description: '',
         limit: limit,
-        shipping_category_id: 1
+        shipping_category_id: 1,
+        available_on: Time.zone.today
       )
+
 
       product.gender = gender
       product.set_recurring(recurring)
@@ -31,6 +33,15 @@ module Spree
       product.calculate_price
       product.save
       product
+    end
+
+    def self.find_generated(gender, recurring, wrap_type, limit)
+      name = "Socks for #{ gender }"
+      name += recurring ? " - Pay montly" : " - Pay once"
+      name += " - Wrap #{ wrap_type }" unless wrap_type == 'none'
+      name += " - By #{ limit } months" if limit || limit.present?
+
+      find_by(name: name)
     end
 
     def gender=(gender)
@@ -76,7 +87,7 @@ module Spree
       self.price += @wrap_cost if @wrap_type == 'every month'
 
       unless recurring
-        self.price *= limit
+        self.price *= self.limit
         self.price += @wrap_cost if @wrap_type == 'first month'
       end
     end
