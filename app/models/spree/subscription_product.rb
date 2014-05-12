@@ -91,7 +91,7 @@ module Spree
         self.price += @wrap_cost if @wrap_type == 'first month'
       end
     end
-    
+
     def set_stock_items
       stock_items = Spree::StockLocation.all.map do |l|
         Spree::StockItem.new(
@@ -100,7 +100,7 @@ module Spree
         )
       end
 
-      self.stock_items = stock_items
+      self.master.stock_items = stock_items
     end
   end
 end
