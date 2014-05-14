@@ -1,0 +1,22 @@
+%form#checkout_form_address
+  %fieldset#billing
+    %legend Billing Address
+    .inner
+      %p.field#bfirstname
+        %label{ for: 'order_bill_address_attributes_firstname' }
+        %input#order_bill_address_attributes_firstname.required{ type: 'text' }
+      %p.field#blastname
+        %label{ for: 'order_bill_address_attributes_firstname' }
+        %input#order_bill_address_attributes_lastname.required{ type: 'text' }
+  %fieldset#shipping
+    %legend Shipping Address
+    %p.field.checkbox
+      %input#order_use_billing{ type: 'checkbox', checked: 'checked' }
+    .inner
+      %p.field#sfirstname
+        %label{ for: 'order_ship_address_attributes_firstname' }
+        %input#order_ship_address_attributes_firstname.required{ type: 'text' }
+      %p.field#slastname
+        %label{ for: 'order_ship_address_attributes_firstname' }
+        %input#order_ship_address_attributes_lastname.required{ type: 'text' }
+
