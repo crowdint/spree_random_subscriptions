@@ -65,19 +65,16 @@ feature 'shipping address for subscription' do
 
     context 'diferent as billing address' do
       context 'checkout address page' do
-        scenario 'changing shipping address for one subscription' do
+        scenario 'changing shipping address for one subscription', js: true do
           page.find(:css, '#order_use_billing').set(true)
-          page.find(:css, '#1-address-checkbox').set(false)
-          #binding.pry
-          within('#1-address') do
+          page.find(:xpath, '//input[@id="1-address-checkbox"]').click
+          within(:xpath, '//fieldset[@id="1-address"]') do
             fill_in 'First Name', with: 'Jose'
             fill_in 'Last Name', with: 'Cuervo'
             fill_in 'Street Address', with: 'Something there #332'
-            #binding.pry
             fill_in 'City', with: 'Springfield'
             select 'United States of America', from: 'Country'
-            fill_in 'State', with: 'Texas'
-            select 'Alabama', from: 'State'
+            page.find(:xpath, '//select[@id="order_line_items_attributes_0_ship_address_attributes_state_id"]').first(:option, 'Alabama').select_option
             fill_in 'Zip', with: '28000'
             fill_in 'Phone', with: '3121111111'
           end
