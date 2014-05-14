@@ -74,7 +74,9 @@ feature 'shipping address for subscription' do
             fill_in 'Street Address', with: 'Something there #332'
             fill_in 'City', with: 'Springfield'
             select 'United States of America', from: 'Country'
-            page.find(:xpath, '//select[@id="order_line_items_attributes_0_ship_address_attributes_state_id"]').first(:option, 'Alabama').select_option
+            page.find(:xpath,
+                      '//select[@id="order_line_items_attributes_0_ship_address_attributes_state_id"]').
+            first(:option, 'Alabama').select_option
             fill_in 'Zip', with: '28000'
             fill_in 'Phone', with: '3121111111'
           end
