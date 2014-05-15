@@ -4,21 +4,25 @@ include Warden::Test::Helpers
 feature 'shipping address for subscription' do
   let!(:address) { create(:address) }
   let!(:user) { create(:user, billing_address: address) }
+  let!(:shipping_method) { create(:shipping_method) }
+  let!(:order) { create(:order, state: 'cart', user: user) }
+
   let!(:shipping_category) do
     create(:shipping_category, shipping_methods: [shipping_method])
   end
-  let!(:shipping_method) { create(:shipping_method) }
+
   let!(:subscription_product1) do
     create(:subscription_product,
            name: 'Subscription 1',
            shipping_category: shipping_category)
   end
+
   let!(:subscription_product2) do
     create(:subscription_product,
            name: 'Subscription 2',
            shipping_category: shipping_category)
   end
-  let!(:order) { create(:order, state: 'cart', user: user) }
+
   let!(:line_item1) do
     create(:line_item,
            order: order,
