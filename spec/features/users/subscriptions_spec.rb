@@ -68,7 +68,7 @@ feature 'shipping address for subscription' do
       end
     end
 
-    context 'diferent as billing address' do
+    context 'different as billing address' do
       context 'checkout address page' do
         scenario 'changing shipping address for one subscription', js: true do
           page.find(:css, '#order_use_billing').set(true)
