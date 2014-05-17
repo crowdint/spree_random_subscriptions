@@ -12,6 +12,7 @@ module Spree
     after_create :create_order
 
     scope :send_today, -> { where next_date: Time.zone.today }
+    scope :active, -> { where state: 'active' }
 
     state_machine initial: :active do
       event :cancel do
@@ -21,12 +22,6 @@ module Spree
       event :activate do
         transition cancelled: :active
       end
-
-      after_transition any => :cancel, do: :cancel_recurring
-    end
-
-    def cancel_recurring
-      payment.cancel_recurring(x_subscription_id)
     end
 
     def missing_items
