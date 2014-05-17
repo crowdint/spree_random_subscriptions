@@ -1,16 +1,17 @@
-%h3= t(:my_subscriptions, scope: :subscriptions)
-- if @subscriptions.present?
-  %table#my-subscriptions
-    %thead
-      %tr
-        %th= t(:subscribed_product, scope: :subscriptions)
-        %th= t(:subscribed_on, scope: :subscriptions)
-        %th= t(:issues, scope: :subscriptions)
-        %th= t(:status, scope: :subscriptions)
-        %th= t(:actions, scope: :subscriptions)
-    %tbody
-      = render @subscriptions
-- else
-  %p= t(:no_subscriptions_yet, scope: :subscriptions)
-%br
+.account-subscriptions{ data: { hook: 'subscriptions' } }
+  %h3= t(:my_subscriptions, scope: :subscriptions)
+  - if @subscriptions.present?
+    %table#my-subscriptions
+      %thead
+        %tr
+          %th= t(:subscribed_product, scope: :subscriptions)
+          %th= t(:subscribed_on, scope: :subscriptions)
+          %th= t(:issues, scope: :subscriptions)
+          %th= t(:status, scope: :subscriptions)
+          %th= t(:actions, scope: :subscriptions)
+      %tbody
+        = render @subscriptions
+  - else
+    %p= t(:no_subscriptions_yet, scope: :subscriptions)
+  %br
 
