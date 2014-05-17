@@ -6,6 +6,7 @@ module Spree
     has_many   :shipped_products, through: :orders, source: :products
     belongs_to :original_order, class_name: 'Spree::Order'
     belongs_to :payment
+    belongs_to :credit_card
 
     has_and_belongs_to_many :orders
 
@@ -40,6 +41,7 @@ module Spree
       orders << order
       add_line_item(order)
       set_next_order_date
+      save_credit_card unless credit_card
       renew_notify
 
       order.next
@@ -80,6 +82,10 @@ module Spree
         #NOTE it only works with products without variants
         variant: random_product.master
       )
+    end
+
+    def save_credit_card
+      update_attribute :credit_card, payment.source
     end
   end
 end
