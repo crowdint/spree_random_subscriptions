@@ -24,7 +24,8 @@ module Spree
         description: '',
         limit: limit,
         shipping_category_id: 1,
-        available_on: Time.zone.today
+        available_on: Time.zone.today,
+        recurring: recurring
       )
 
       product.gender = gender
