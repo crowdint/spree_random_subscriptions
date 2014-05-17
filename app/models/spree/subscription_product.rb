@@ -5,8 +5,12 @@ module Spree
     attr_accessor :wrap_cost
     attr_accessor :wrap_type
 
-    def unpaid?
-      payments.completed.count == 0
+    def unpaid?(order)
+      payments_order(order).completed.count == 0
+    end
+
+    def payments_order(order)
+      payments.where(order: order)
     end
 
     def subscription?

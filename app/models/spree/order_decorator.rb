@@ -12,25 +12,7 @@ module Spree
       subscription_products.count > 0
     end
 
-    def check_subscriptions!
-      subscription_products.map do |sp|
-        subscription = find_subscription(user, sp)
-
-        if subscription
-          subscription.update(limit: subscription.limit += sp.limit)
-        else
-          Subscription.create(
-            original_order: self,
-            user: user,
-            subscription_product: sp,
-            address: ship_address,
-            limit: sp.limit
-          )
-        end
-      end
-    end
-
-    # This code was completely taken from spree core except for the line marked
+    # This code has been completely taken from spree core except for the line marked below
     # https://github.com/spree/spree/blob/master/core/app/models/spree/order/checkout.rb#L211
     def update_from_params(params, permitted_params)
       success = false
@@ -68,6 +50,7 @@ module Spree
       original = attributes['payments_attributes'].first
 
       original['amount'] += calculate_first_month_wrap_costs - calculate_recurrings_price
+
       original['subscription_product_ids'] = subscription_products.not_recurrent.map &:id
 
       new_payments = create_recurring_payments(original)
@@ -81,7 +64,7 @@ module Spree
     private
 
     def create_recurring_payments(original_payment)
-      subscription_products.recurrent.select{ |p| p.unpaid? }.map do |p|
+      subscription_products.recurrent.select{ |p| p.unpaid?(self) }.map do |p|
         new_payment = original_payment.clone
 
         new_payment['amount'] = p.price
@@ -93,7 +76,7 @@ module Spree
     def calculate_recurrings_price
       subscription_products.
         recurrent.
-        select{ |p| p.unpaid? }.to_a.
+        select{ |p| p.unpaid?(self) }.to_a.
         inject(0){ |sum, p| sum + p.price }
     end
 
@@ -101,12 +84,8 @@ module Spree
       subscription_products.
         recurrent.
         where('spree_products.name LIKE \'%first month%\'').
-        select{ |p| p.unpaid? }.
+        select{ |p| p.unpaid?(self) }.
         size * 2
-    end
-
-    def find_subscription(user, product)
-      Subscription.find_by(user: user, subscription_product: product)
     end
 
     def invalidate_old_payments
