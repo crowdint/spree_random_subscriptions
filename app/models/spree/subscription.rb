@@ -38,7 +38,6 @@ module Spree
       orders << order
       add_line_item(order)
       set_next_order_date
-      # save_credit_card(payment) if payment
       renew_notify
 
       order.next
@@ -78,10 +77,6 @@ module Spree
         #NOTE it only works with products without variants
         variant: random_product.master
       )
-    end
-
-    def save_credit_card(payment)
-      update_attribute :credit_card, payment.source
     end
   end
 end
