@@ -14,6 +14,8 @@ describe Spree::Order do
 
   describe '#check_subscriptions!' do
     context 'creates a subscription' do
+      let!(:completed_payment){ create :payment, order: subject, state: 'completed' }
+
       it 'adds a subscription' do
         expect { subject.check_subscriptions! }.to change {
           Spree::Subscription.count

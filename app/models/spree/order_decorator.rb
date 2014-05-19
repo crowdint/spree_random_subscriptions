@@ -18,7 +18,7 @@ module Spree
             subscription_product: sp,
             address: ship_address,
             limit: sp.limit,
-            # credit_card:  source,
+            credit_card:  payments.completed.last.source,
             recurring: sp.recurring
           )
         end
