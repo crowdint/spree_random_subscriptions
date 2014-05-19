@@ -7,6 +7,10 @@ module Spree
       true
     end
 
+    def first_month_wrapping?
+      name =~ /first month/
+    end
+
     def self.generate(gender, recurring, wrap_type, limit = nil, price = 11, wrap_cost = 2)
       product = new(
         wrap_cost: wrap_cost,
@@ -98,4 +102,5 @@ module Spree
       self.master.stock_items = stock_items
     end
   end
+
 end
