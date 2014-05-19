@@ -46,7 +46,7 @@ describe Spree::Subscription do
       it { expect(subject.next_date).to eq Time.zone.today + 1.month }
     end
 
-    context 'with recurring orde subscription' do
+    context 'with recurring order subscription' do
       let(:subject) { create :subscription, recurring: true }
       let(:order) { subject.create_order }
 
@@ -58,7 +58,7 @@ describe Spree::Subscription do
         expect(order.state).to eq 'complete'
       end
 
-      it 'has a paiment' do
+      it 'has a payment' do
         expect(order.payments.size).to be 1
         expect(order.payments.last).to be_completed
         expect(order.payments.last.source_type).to eq 'Spree::CreditCard'
