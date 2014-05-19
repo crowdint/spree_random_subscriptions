@@ -3,15 +3,14 @@ module Spree
     belongs_to :user
     belongs_to :address
     belongs_to :subscription_product
+    belongs_to :credit_card
     has_many   :shipped_products, through: :orders, source: :products
-    belongs_to :original_order, class_name: 'Spree::Order'
-    belongs_to :payment
-
     has_and_belongs_to_many :orders
 
     after_create :create_order
 
     scope :send_today, -> { where next_date: Time.zone.today }
+    scope :active, -> { where state: 'active' }
 
     state_machine initial: :active do
       event :cancel do
@@ -21,12 +20,6 @@ module Spree
       event :activate do
         transition cancelled: :active
       end
-
-      after_transition any => :cancel, do: :cancel_recurring
-    end
-
-    def cancel_recurring
-      payment.cancel_recurring(x_subscription_id)
     end
 
     def missing_items
@@ -48,7 +41,6 @@ module Spree
       renew_notify
 
       order.next
-
       order
     end
 

@@ -1,16 +1,14 @@
 module Spree
   class SubscriptionProduct < Product
-    has_and_belongs_to_many :payments
-
     attr_accessor :wrap_cost
     attr_accessor :wrap_type
 
-    def unpaid?
-      payments.completed.count == 0
-    end
-
     def subscription?
       true
+    end
+
+    def first_month_wrapping?
+      name =~ /first month/
     end
 
     def self.generate(gender, recurring, wrap_type, limit = nil, price = 11, wrap_cost = 2)
@@ -20,7 +18,8 @@ module Spree
         description: '',
         limit: limit,
         shipping_category_id: 1,
-        available_on: Time.zone.today
+        available_on: Time.zone.today,
+        recurring: recurring
       )
 
       product.gender = gender
@@ -103,4 +102,5 @@ module Spree
       self.master.stock_items = stock_items
     end
   end
+
 end
