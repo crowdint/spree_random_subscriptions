@@ -3,11 +3,8 @@ module Spree
     belongs_to :user
     belongs_to :address
     belongs_to :subscription_product
-    has_many   :shipped_products, through: :orders, source: :products
-    belongs_to :original_order, class_name: 'Spree::Order'
-    belongs_to :payment
     belongs_to :credit_card
-
+    has_many   :shipped_products, through: :orders, source: :products
     has_and_belongs_to_many :orders
 
     after_create :create_order
@@ -41,11 +38,10 @@ module Spree
       orders << order
       add_line_item(order)
       set_next_order_date
-      save_credit_card unless credit_card
+      # save_credit_card(payment) if payment
       renew_notify
 
       order.next
-
       order
     end
 
@@ -84,7 +80,7 @@ module Spree
       )
     end
 
-    def save_credit_card
+    def save_credit_card(payment)
       update_attribute :credit_card, payment.source
     end
   end

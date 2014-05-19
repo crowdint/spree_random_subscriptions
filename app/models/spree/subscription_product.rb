@@ -1,17 +1,7 @@
 module Spree
   class SubscriptionProduct < Product
-    has_and_belongs_to_many :payments
-
     attr_accessor :wrap_cost
     attr_accessor :wrap_type
-
-    def unpaid?(order)
-      payments_order(order).completed.count == 0
-    end
-
-    def payments_order(order)
-      payments.where(order: order)
-    end
 
     def subscription?
       true

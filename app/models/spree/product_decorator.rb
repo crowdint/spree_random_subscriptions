@@ -15,5 +15,9 @@ module Spree
     def subscription?
       false
     end
+
+    def first_month_wrapping?
+      name =~ /first month/
+    end
   end
 end
