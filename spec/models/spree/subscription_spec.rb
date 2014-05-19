@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Spree::Subscription do
   let!(:product) { create :product }
-  let(:subject) { create :subscription, paid: true }
+  let(:subject) { create :subscription }
 
   describe '#missing_items' do
     context 'with already shipped_products' do
@@ -32,18 +32,37 @@ describe Spree::Subscription do
   end
 
   describe '#create_order' do
-    let(:order) { subject.create_order }
+    context 'with no recurring subscription' do
+      let(:order) { subject.create_order }
 
-    it 'creates a valid order' do
-      expect(order).to be_valid
-    end
+      it 'creates a valid order' do
+        expect(order).to be_valid
+      end
 
-    it 'creates a completed order' do
-      expect(order.state).to eq 'complete'
-    end
+      it 'creates a completed order' do
+        expect(order.state).to eq 'complete'
+      end
 
-    context 'with a paid subscription' do
       it { expect(subject.next_date).to eq Time.zone.today + 1.month }
+    end
+
+    context 'with recurring orde subscription' do
+      let(:subject) { create :subscription, recurring: true }
+      let(:order) { subject.create_order }
+
+      it 'creates a valid order' do
+        expect(order).to be_valid
+      end
+
+      it 'creates a completed order' do
+        expect(order.state).to eq 'complete'
+      end
+
+      it 'has a paiment' do
+        expect(order.payments.size).to be 1
+        expect(order.payments.last).to be_completed
+        expect(order.payments.last.source_type).to eq 'Spree::CreditCard'
+      end
     end
   end
 end
