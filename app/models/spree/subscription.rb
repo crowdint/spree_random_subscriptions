@@ -73,7 +73,7 @@ module Spree
 
     def create_new_payment(order)
       payment = Spree::Payment.create(
-        amount: get_new_payment_amount,
+        amount: subscription_product.price,
         source: credit_card,
         payment_method: payment_method,
         order: order
@@ -82,12 +82,6 @@ module Spree
       payment.purchase!
 
       payment
-    end
-
-    def get_new_payment_amount
-      amount = subscription_product.price
-      amount += 2 if subscription_product.first_month_wrapping?
-      amount
     end
 
     def set_next_order_date
