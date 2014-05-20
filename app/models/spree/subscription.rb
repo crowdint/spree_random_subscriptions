@@ -4,10 +4,11 @@ module Spree
     belongs_to :address
     belongs_to :subscription_product
     belongs_to :credit_card
+    belongs_to :payment_method
     has_many   :shipped_products, through: :orders, source: :products
     has_and_belongs_to_many :orders
 
-    after_create :create_order
+    after_create :create_first_order
 
     scope :send_today, -> { where next_date: Time.zone.today }
     scope :active, -> { where state: 'active' }
@@ -26,7 +27,11 @@ module Spree
       limit - shipped_products.count
     end
 
-    def create_order
+    def create_first_order
+      create_order(true)
+    end
+
+    def create_order(first_order = false)
       order = Order.create(
         user: user,
         bill_address: user.bill_address || address,
@@ -37,6 +42,7 @@ module Spree
 
       orders << order
       add_line_item(order)
+      create_recurring_payment(order) if recurring && !first_order
       set_next_order_date
       renew_notify
 
@@ -59,8 +65,33 @@ module Spree
 
     private
 
+    def create_recurring_payment(order)
+      order.payments << create_new_payment(order)
+
+      order
+    end
+
+    def create_new_payment(order)
+      payment = Spree::Payment.create(
+        amount: get_new_payment_amount,
+        source: credit_card,
+        payment_method: payment_method,
+        order: order
+      )
+
+      payment.purchase!
+
+      payment
+    end
+
+    def get_new_payment_amount
+      amount = subscription_product.price
+      amount += 2 if subscription_product.first_month_wrapping?
+      amount
+    end
+
     def set_next_order_date
-      if paid && missing_items > 0
+      if missing_items > 0
         update_attribute :next_date , created_at + shipped_products.count.months
       end
     end

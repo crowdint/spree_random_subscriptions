@@ -6,6 +6,8 @@ FactoryGirl.define do
     user { create :user }
     address { create :address }
     subscription_product { create :subscription_product }
+    payment_method { create :credit_card_payment_method }
+    credit_card { create :credit_card }
     limit 12
   end
 end

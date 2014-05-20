@@ -18,11 +18,16 @@ module Spree
             subscription_product: sp,
             address: ship_address,
             limit: sp.limit,
-            credit_card:  payments.completed.last.source,
-            recurring: sp.recurring
+            credit_card:  payment.source,
+            recurring: sp.recurring,
+            payment_method: payment.payment_method
           )
         end
       end
+    end
+
+    def payment
+      payments.completed.last
     end
 
     private
