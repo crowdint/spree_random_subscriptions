@@ -26,7 +26,7 @@ describe Spree::CreditCard do
       before do
         subject.stub(:create_payment_profile) do
           {
-            :error  => 'Invalid credit card'
+            error: 'Invalid credit card'
           }
         end
 

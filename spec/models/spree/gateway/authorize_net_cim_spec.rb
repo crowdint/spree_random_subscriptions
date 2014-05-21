@@ -15,6 +15,6 @@ describe Spree::Gateway::AuthorizeNetCim do
 
   it 'returns customer_payment_profile_id' do
     data = subject.create_payment_profile_form_card(card)
-    expect(data['customer_payment_profile_id']).to be_true
+    expect(data['customer_payment_profile_id']).to be_present
   end
 end
