@@ -7,7 +7,16 @@ module Spree
     end
 
     def update
-      if params['use_existing_card'] == 'no'
+      if params['use_existing_card'] == 'yes'
+        process_use_existing_card
+      else
+        process_use_new_card
+      end
+    end
+
+    private
+
+    def process_use_existing_card
         @credit_card = Spree::CreditCard.new(credit_card_params)
 
         if @credit_card.valid?
@@ -25,20 +34,19 @@ module Spree
         else
           render_edit
         end
-      else
-        if payment_sources.ids.include? params['existing_card'].to_i
-          @subscription.update_attribute :credit_card_id, params['existing_card']
-
-          flash[:success] = Spree.t(:credit_card_updated)
-          redirect_to account_path
-        else
-          flash[:error] = Spree.t(:credit_card_doesnt_exist)
-          render_edit
-        end
-      end
     end
 
-    private
+    def process_use_new_card
+      if payment_sources.ids.include? params['existing_card'].to_i
+        @subscription.update_attribute :credit_card_id, params['existing_card']
+
+        flash[:success] = Spree.t(:credit_card_updated)
+        redirect_to account_path
+      else
+        flash[:error] = Spree.t(:credit_card_doesnt_exist)
+        render_edit
+      end
+    end
 
     def render_edit
       payment_sources
