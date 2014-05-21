@@ -17,26 +17,6 @@ module Spree
     private
 
     def process_use_existing_card
-        @credit_card = Spree::CreditCard.new(credit_card_params)
-
-        if @credit_card.valid?
-          @credit_card.gateway_customer_profile_id = get_gateway_profile
-          @credit_card.user_id = spree_current_user.id
-
-          if @credit_card.save_in_authorize
-            @subscription.update_attribute :credit_card_id, @credit_card.id
-
-            flash[:success] = Spree.t(:credit_card_updated)
-            redirect_to account_path
-          else
-            render_edit
-          end
-        else
-          render_edit
-        end
-    end
-
-    def process_use_new_card
       if payment_sources.ids.include? params['existing_card'].to_i
         @subscription.update_attribute :credit_card_id, params['existing_card']
 
@@ -44,6 +24,26 @@ module Spree
         redirect_to account_path
       else
         flash[:error] = Spree.t(:credit_card_doesnt_exist)
+        render_edit
+      end
+    end
+
+    def process_use_new_card
+      @credit_card = Spree::CreditCard.new(credit_card_params)
+
+      if @credit_card.valid?
+        @credit_card.gateway_customer_profile_id = get_gateway_profile
+        @credit_card.user_id = spree_current_user.id
+
+        if @credit_card.save_in_authorize
+          @subscription.update_attribute :credit_card_id, @credit_card.id
+
+          flash[:success] = Spree.t(:credit_card_updated)
+          redirect_to account_path
+        else
+          render_edit
+        end
+      else
         render_edit
       end
     end

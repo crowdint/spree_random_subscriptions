@@ -2,7 +2,7 @@ module Spree
   Gateway::AuthorizeNetCim.class_eval do
     def create_payment_profile_form_card(card)
       if card.valid?
-        response = create_payment_profile
+        response = create_payment_profile(card)
         if response.success?
           response.params
         else
@@ -15,7 +15,7 @@ module Spree
 
     private
 
-    def create_payment_profile
+    def create_payment_profile(card)
       options = options_for_payment_profile(card)
       cim_gateway.create_customer_payment_profile(options)
     end
