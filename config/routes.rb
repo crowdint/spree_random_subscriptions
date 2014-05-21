@@ -6,8 +6,8 @@ Spree::Core::Engine.routes.draw do
   end
 
   resources :silent_post, only: [:create]
-
   resources :renew, only: :edit
+  resources :update_credit_cards, only: [:edit, :update]
 
   namespace :admin do
     resources :subscriptions
