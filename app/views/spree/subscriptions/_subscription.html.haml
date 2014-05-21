@@ -7,5 +7,5 @@
     = button_to 'Cancel', spree.admin_subscription_path(subscription),
       method: :delete,
       data: { confirm: t(:cancel_confirmation, scope: :subscriptions) }
-    = link_to 'Update credit Card', edit_update_credit_card_path(subscription) , class: 'button'
+    = link_to 'Update credit Card', edit_update_credit_card_path(subscription) , class: 'button' if subscription.recurring?
 
