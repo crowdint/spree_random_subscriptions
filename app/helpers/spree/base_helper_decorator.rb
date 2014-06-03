@@ -1,6 +1,5 @@
 module Spree
   module BaseHelper
-
     def item_shipping_address(item)
       address = tag(:br)
       address << content_tag(:b, t(:ship_to, scope: :subscriptions))
@@ -8,5 +7,8 @@ module Spree
       address if item.product_subscription?
     end
 
+    def is_a_gift(gift)
+      'display: none;' unless gift
+    end
   end
 end
