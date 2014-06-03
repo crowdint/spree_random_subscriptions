@@ -7,21 +7,27 @@ module Spree
     end
 
     def check_subscriptions!
-      subscription_products.map do |sp|
-        subscription = find_subscription(user, sp)
+      line_items.map do |li|
+        if li.product.subscription?
+          sp = li.product
+          subscription = find_subscription(user, sp)
 
-        if subscription
-          subscription.update(limit: subscription.limit += sp.limit)
-        else
-          Subscription.create(
-            user: user,
-            subscription_product: sp,
-            address: ship_address,
-            limit: sp.limit,
-            credit_card:  payment.source,
-            recurring: sp.recurring,
-            payment_method: payment.payment_method
-          )
+          if subscription
+            subscription.update(limit: subscription.limit += sp.limit)
+          else
+            Subscription.create(
+              user: user,
+              subscription_product: sp,
+              address: ship_address,
+              limit: sp.limit,
+              credit_card:  payment.source,
+              recurring: sp.recurring,
+              payment_method: payment.payment_method,
+              gift: li.gift,
+              gift_name: li.gift_name,
+              gift_email: li.gift_email
+            )
+          end
         end
       end
     end
