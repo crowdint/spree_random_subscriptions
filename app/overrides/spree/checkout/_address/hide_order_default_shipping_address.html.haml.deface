@@ -1,0 +1,5 @@
+/
+  surround '#shipping'
+
+- if @order.products.count - @order.subscription_products.count > 0
+  = render_original
