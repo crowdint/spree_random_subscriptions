@@ -2,6 +2,9 @@
   %td= subscription.subscription_product.name
   %td= l subscription.created_at.to_date
   %td= subscription.limit
+  %td= subscription.gift_name
+  %td= subscription.gift_email
+  %td= subscription.gift_message
   %td= subscription.state
   %td
     = button_to 'Cancel', spree.admin_subscription_path(subscription),
