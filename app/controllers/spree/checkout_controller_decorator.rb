@@ -7,6 +7,10 @@ module Spree
       line_item_attributes = {
         line_items_attributes:[
           :id,
+          :gift,
+          :gift_name,
+          :gift_email,
+          :gift_message,
           ship_address_attributes: [
             :firstname, :lastname, :address1, :address2, :city, :country_id,
             :state_id, :zipcode, :phone, :state_name, :alternative_phone, :company,
