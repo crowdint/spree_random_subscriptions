@@ -11,3 +11,5 @@ en:
     ship_to: 'Ships to:'
     subscribed_on: Subscription Date
     subscribed_product: Subscribed Product
+  spree:
+    is_it_a_gift?: Is it a gift?
