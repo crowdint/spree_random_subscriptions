@@ -1,0 +1,5 @@
+/ insert_after '.form-buttons'
+
+:coffee
+  $ -> new MultiShippingAddress.Helpers.ToggleAddress()
+

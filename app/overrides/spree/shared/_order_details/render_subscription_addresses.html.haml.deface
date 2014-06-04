@@ -1,0 +1,3 @@
+/ insert_bottom "[data-hook='order-ship-address']"
+= render partial: 'spree/shared/subscription_addresses', locals: { order: order }
+
