@@ -1,0 +1,4 @@
+- order.line_items.each do |line_item|
+  = render partial: 'spree/shared/address',
+    locals: { address: line_item.ship_address } if line_item.product_subscription?
+

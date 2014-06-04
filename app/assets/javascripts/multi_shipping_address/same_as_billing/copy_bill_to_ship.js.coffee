@@ -1,4 +1,5 @@
-window.MultiShippingAddress ||= { SameAsBilling: {} }
+window.MultiShippingAddress ||= {}
+$.extend(MultiShippingAddress, { SameAsBilling: {} })
 
 class MultiShippingAddress.SameAsBilling.CopyBillToShip
   constructor: (@$form) ->

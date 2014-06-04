@@ -1,0 +1,5 @@
+<!-- surround_contents '.address' -->
+<div style= 'display:none' id= "address-<%= address.id %>">
+  <%= render_original %>
+</div>
+
