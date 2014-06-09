@@ -58,7 +58,6 @@ feature 'shipping address for subscription' do
 
     context 'checkout delivery page', js: true do
       scenario 'checking the values for subscription shipment' do
-        page.find(:css, '#order_use_billing').set(true)
         click_button 'Save and Continue'
         expect(page).to have_content('Subscription 1')
         expect(page).to have_content('Subscription 2')
@@ -71,7 +70,6 @@ feature 'shipping address for subscription' do
     context 'different as billing address' do
       context 'checkout address page' do
         scenario 'changing shipping address for one subscription', js: true do
-          page.find(:css, '#order_use_billing').set(true)
           page.find(:xpath, '//input[@id="1-address-checkbox"]').click
           within(:xpath, '//fieldset[@id="1-address"]') do
             fill_in 'First Name', with: 'Jose'
