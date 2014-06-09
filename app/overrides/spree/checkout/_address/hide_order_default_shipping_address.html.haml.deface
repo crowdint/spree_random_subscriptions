@@ -3,3 +3,7 @@
 
 - if @order.products.count - @order.subscription_products.count > 0
   = render_original
+- else
+  = form.fields_for :ship_address do |ship_form|
+    %p.field.checkbox.hide{ data: { hook: "use_billing" }}
+      = check_box_tag 'order[use_billing]', '1', true
