@@ -1,0 +1,3 @@
+/ insert_bottom '.fn'
+= link_to '(show)', "#address-#{address.id}", class: 'display-address'
+
