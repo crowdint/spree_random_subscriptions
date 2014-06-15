@@ -36,7 +36,7 @@ module Spree
 
     def self.find_generated(gender, recurring, wrap_type, limit)
       name = "Socks for #{ gender }"
-      name += recurring ? " - Pay montly" : " - Pay once"
+      name += recurring ? " - Pay monthly" : " - Pay once"
       name += " - Wrap #{ wrap_type }" unless wrap_type == 'none'
       name += " - By #{ limit } months" if limit || limit.present?
 
@@ -52,7 +52,7 @@ module Spree
       self.recurring = recurring
 
       if self.recurring
-        self.name += " - Pay montly"
+        self.name += " - Pay monthly"
       else
         self.name += " - Pay once"
       end
