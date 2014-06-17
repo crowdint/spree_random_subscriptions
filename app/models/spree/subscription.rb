@@ -55,7 +55,7 @@ module Spree
     end
 
     def random_product
-      @random_product ||= Product.unsubscribable.
+      Spree::Product.unsubscribable.
         active.
         where.not('spree_products.id' => shipped_products.map(&:id)).
         order("RANDOM()").
