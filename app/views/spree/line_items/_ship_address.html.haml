@@ -22,8 +22,7 @@
       = check_box_tag "#{item_address_id}-checkbox", '1', true,
         class: 'same-as-billing'
       = label_tag "#{item_address_id}-checkbox",
-        Spree.t(:use_billing_address),
-        class: 'same-as-billing'
+        Spree.t(:use_billing_address)
       = item_form.fields_for :ship_address, item.build_default_ship_address do |ship_form|
         = render partial: 'spree/address/form', locals: { form: ship_form,
                                                           address_type: 'shipping',
