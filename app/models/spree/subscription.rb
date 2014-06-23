@@ -24,7 +24,7 @@ module Spree
     end
 
     def missing_items
-      limit - shipped_products.count
+      limit && limit - shipped_products.count || Float::INFINITY
     end
 
     def create_first_order
@@ -100,7 +100,8 @@ module Spree
       Spree::LineItem.create(
         order: order,
         #NOTE it only works with products without variants
-        variant: random_product.master
+        variant: random_product.master,
+        quantity: 1
       )
     end
   end
