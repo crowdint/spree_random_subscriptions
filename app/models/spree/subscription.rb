@@ -100,7 +100,8 @@ module Spree
       Spree::LineItem.create(
         order: order,
         #NOTE it only works with products without variants
-        variant: random_product.master
+        variant: random_product.master,
+        quantity: 1
       )
     end
   end

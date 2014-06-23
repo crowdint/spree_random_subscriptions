@@ -12,7 +12,7 @@ module Spree
           sp = li.product
           subscription = find_subscription(user, sp)
 
-          if subscription
+          if subscription && !subscription.recurring
             subscription.update(limit: subscription.limit += sp.limit)
           else
             Subscription.create(
