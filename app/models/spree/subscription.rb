@@ -24,7 +24,7 @@ module Spree
     end
 
     def missing_items
-      limit - shipped_products.count
+      limit && limit - shipped_products.count || Float::INFINITY
     end
 
     def create_first_order
