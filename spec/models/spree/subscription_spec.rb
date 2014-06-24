@@ -58,6 +58,8 @@ describe Spree::Subscription do
         expect(order.state).to eq 'complete'
       end
 
+      it { expect(order).to be_paid }
+
       it 'has a payment' do
         expect(order.payments.size).to be 1
         expect(order.payments.last).to be_completed

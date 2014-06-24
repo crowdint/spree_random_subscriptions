@@ -42,11 +42,12 @@ module Spree
 
       orders << order
       add_line_item(order)
-      create_recurring_payment(order) if recurring && !first_order
       set_next_order_date
       renew_notify
 
       order.next
+
+      create_recurring_payment(order) if recurring && !first_order
       order
     end
 
