@@ -9,5 +9,11 @@ describe Spree::Payment do
 
       payment.complete
     end
+
+    it 'adds a delayed job' do
+      expect do
+        payment.complete
+      end.to change(Sidekiq::Extensions::DelayedClass.jobs, :size).by(1)
+    end
   end
 end

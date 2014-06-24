@@ -36,6 +36,10 @@ module Spree
       payments.completed.last
     end
 
+    def self.check_subscriptions!(order_id)
+      Spree::Order.find(order_id).check_subscriptions!
+    end
+
     private
 
     def find_subscription(user, product)
