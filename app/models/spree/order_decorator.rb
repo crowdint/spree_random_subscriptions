@@ -18,7 +18,7 @@ module Spree
             Subscription.create(
               user: user,
               subscription_product: sp,
-              address: ship_address,
+              address: li.ship_address,
               limit: sp.limit,
               credit_card:  payment.source,
               recurring: sp.recurring,
