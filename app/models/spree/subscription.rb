@@ -70,9 +70,12 @@ module Spree
     def create_recurring_order
       order = create_new_order
       add_line_item(order, subscription_product)
+      order.update_totals
+
+      payment = create_new_payment(order)
       order.next
 
-      create_new_payment(order)
+      payment.purchase!
       order
     end
 
@@ -87,23 +90,13 @@ module Spree
       )
     end
 
-    def create_recurring_payment(order)
-      order.payments << create_new_payment(order)
-
-      order
-    end
-
     def create_new_payment(order)
-      payment = Spree::Payment.create(
-        amount: subscription_product.price,
+      Spree::Payment.create(
+        amount: order.total,
         source: credit_card,
         payment_method: payment_method,
         order: order
       )
-
-      payment.purchase!
-
-      payment
     end
 
     def set_next_order_date

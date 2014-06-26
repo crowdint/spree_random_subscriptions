@@ -55,14 +55,14 @@ describe Spree::Subscription do
         expect(order).to be_valid
       end
 
-      it 'creates a completed order' do
+      it 'creates two completed order' do
         expect(order.state).to eq 'complete'
+        expect(second_order.state).to eq 'complete'
       end
-
-      it { expect(order).to be_paid }
 
       it 'creates a second order with a payment' do
         expect(second_order).not_to eq order
+        expect(second_order).to be_paid
         expect(second_order.payments.last).to be_completed
         expect(second_order.payments.last.source_type).to eq 'Spree::CreditCard'
       end
