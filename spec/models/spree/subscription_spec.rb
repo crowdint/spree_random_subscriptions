@@ -47,8 +47,9 @@ describe Spree::Subscription do
     end
 
     context 'with recurring order subscription' do
-      let(:subject) { create :subscription, recurring: true }
-      let(:order) { subject.create_order }
+      let!(:subject) { create :subscription, recurring: true }
+      let!(:order) { subject.create_order }
+      let(:second_order) { Spree::Order.last }
 
       it 'creates a valid order' do
         expect(order).to be_valid
@@ -60,10 +61,10 @@ describe Spree::Subscription do
 
       it { expect(order).to be_paid }
 
-      it 'has a payment' do
-        expect(order.payments.size).to be 1
-        expect(order.payments.last).to be_completed
-        expect(order.payments.last.source_type).to eq 'Spree::CreditCard'
+      it 'creates a second order with a payment' do
+        expect(second_order).not_to eq order
+        expect(second_order.payments.last).to be_completed
+        expect(second_order.payments.last.source_type).to eq 'Spree::CreditCard'
       end
     end
 

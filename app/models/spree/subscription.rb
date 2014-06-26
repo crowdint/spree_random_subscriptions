@@ -33,23 +33,15 @@ module Spree
     end
 
     def create_order(first_order = false)
-      order = Order.create(
-        user: user,
-        bill_address: user.bill_address || address,
-        ship_address: address,
-        email: user.email,
-        state: 'confirm',
-        note: note
-      )
-
+      order = create_new_order
       orders << order
-      add_line_item(order)
+      add_random_line_item(order)
       set_next_order_date
       renew_notify
 
       order.next
 
-      create_recurring_payment(order) if recurring && !first_order
+      create_recurring_order if recurring && !first_order
       order
     end
 
@@ -74,6 +66,26 @@ module Spree
     end
 
     private
+
+    def create_recurring_order
+      order = create_new_order
+      add_line_item(order, subscription_product)
+      order.next
+
+      create_new_payment(order)
+      order
+    end
+
+    def create_new_order
+      Order.create(
+        user: user,
+        bill_address: user.bill_address || address,
+        ship_address: address,
+        email: user.email,
+        state: 'confirm',
+        note: note
+      )
+    end
 
     def create_recurring_payment(order)
       order.payments << create_new_payment(order)
@@ -106,11 +118,14 @@ module Spree
       end
     end
 
-    def add_line_item(order)
+    def add_random_line_item(order)
+      add_line_item(order, random_product)
+    end
+
+    def add_line_item(order, product, quantity = 1)
       Spree::LineItem.create(
         order: order,
-        #NOTE it only works with products without variants
-        variant: random_product.master,
+        variant: product.master,
         quantity: 1
       )
     end
