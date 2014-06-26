@@ -23,11 +23,11 @@ module Spree
               credit_card:  payment.source,
               recurring: sp.recurring,
               payment_method: payment.payment_method,
-              gift: li.gift,
+              gift: li.gift?,
               gift_name: li.gift_name,
               gift_email: li.gift_email,
-              line_item: li,
-              note: li.gift_note
+              gift_message: li.gift_message,
+              line_item: li
             )
           end
         end

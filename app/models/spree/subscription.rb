@@ -66,6 +66,13 @@ module Spree
         first
     end
 
+    def note
+      if gift?
+        "To: #{ self.gift_name } (#{ self.gift_email })\n" + 
+        "message: \"#{ self.gift_message }\""
+      end
+    end
+
     private
 
     def create_recurring_payment(order)
