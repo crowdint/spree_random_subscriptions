@@ -66,5 +66,37 @@ describe Spree::Subscription do
         expect(order.payments.last.source_type).to eq 'Spree::CreditCard'
       end
     end
+
+    context 'with a gift' do
+      let(:subject) do
+        create :subscription,
+          gift:         true,
+          gift_name:    'test name',
+          gift_message: 'test message',
+          gift_email: 'test@test.com'
+      end
+      let(:order) { subject.orders.first }
+
+      it {expect(order.note).not_to be_blank }
+    end
+  end
+
+  describe '#note' do
+    context 'with a gift subscription' do
+      let(:subject) do
+        create :subscription,
+          gift:         true,
+          gift_name:    name,
+          gift_message: message,
+          gift_email: email
+      end
+      let(:name) { 'Test name' }
+      let(:message) { 'Test Message' }
+      let(:email) { 'test@test.com' }
+
+      it { expect(subject.note).to include name }
+      it { expect(subject.note).to include message }
+      it { expect(subject.note).to include email }
+    end
   end
 end
