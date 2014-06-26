@@ -11,6 +11,13 @@ module Spree
       country = Spree::Country.find(Spree::Config[:default_country_id]) rescue Spree::Country.first
       build_ship_address country: country, state_id: 32
     end
+
+    def gift_note
+      if gift?
+        "To: #{ gift_name } (#{ gift_emai })\n" + 
+        "message: #{ gift_message }"
+      end
+    end
   end
 end
 

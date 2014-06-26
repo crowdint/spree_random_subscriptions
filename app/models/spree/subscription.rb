@@ -5,6 +5,7 @@ module Spree
     belongs_to :subscription_product
     belongs_to :credit_card
     belongs_to :payment_method
+    belongs_to :line_item
     has_many   :shipped_products, through: :orders, source: :products
     has_and_belongs_to_many :orders
 
@@ -37,7 +38,8 @@ module Spree
         bill_address: user.bill_address || address,
         ship_address: address,
         email: user.email,
-        state: 'confirm'
+        state: 'confirm',
+        note: note
       )
 
       orders << order

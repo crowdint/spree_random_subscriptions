@@ -25,7 +25,9 @@ module Spree
               payment_method: payment.payment_method,
               gift: li.gift,
               gift_name: li.gift_name,
-              gift_email: li.gift_email
+              gift_email: li.gift_email,
+              line_item: li,
+              note: li.gift_note
             )
           end
         end
