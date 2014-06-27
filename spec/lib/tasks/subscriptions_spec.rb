@@ -26,7 +26,7 @@ describe 'subscriptions', sidekiq: :fake do
     it do
       expect do
         Rake::Task['subscriptions:generate_products'].invoke
-      end.to change(Spree::SubscriptionProduct, :count).by(60)
+      end.to change(Sidekiq::Extensions::DelayedClass.jobs, :size).by(60)
     end
 
     context 'generate all subscription products combinations' do
