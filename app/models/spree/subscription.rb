@@ -69,7 +69,7 @@ module Spree
     private
 
     def add_wrapping(order, first_order)
-      if first_order && subscription_product.first_month_wrapping? || subscrption_product.wrap_every_month?
+      if first_order && subscription_product.first_month_wrapping? || subscription_product.wrap_every_month?
         add_line_item(order, Spree::Product.wrapping_product )
       end
     end
