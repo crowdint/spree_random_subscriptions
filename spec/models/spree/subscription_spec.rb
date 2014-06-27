@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Spree::Subscription do
   let!(:product) { create :product }
+
   let(:subject) { create :subscription }
 
   describe '#missing_items' do
@@ -79,6 +80,32 @@ describe Spree::Subscription do
       let(:order) { subject.orders.first }
 
       it {expect(order.note).not_to be_blank }
+    end
+
+    context 'wrapping' do
+      let!(:wrapping) { create :product, name: 'wrapping' }
+
+      context 'first month' do
+        let(:subscription) do
+          create :subscription,
+            subscription_product: create(:subscription_product, name: 'Wrapping first month')
+        end
+        let(:order) { subscription.orders.last }
+
+        it { expect(order.products).to include wrapping }
+      end
+
+      context 'every month' do
+        let(:subscription) do
+          create :subscription,
+            subscription_product: create(:subscription_product, name: 'Wrapping first month')
+        end
+        let(:order) { subscription.orders.first }
+        let(:second_order) { subscription.create_order }
+
+        it { expect(order.products).to include wrapping }
+        it { expect(second_order.products).to include wrapping }
+      end
     end
   end
 

@@ -16,7 +16,7 @@ module Spree
       false
     end
 
-    def self.subscription_product
+    def self.wrapping_product
       Spree::Product.find_by name: 'wrapping'
     end
   end
