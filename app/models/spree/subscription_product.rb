@@ -8,7 +8,11 @@ module Spree
     end
 
     def first_month_wrapping?
-      name =~ /first month/
+      name =~ /first mont/
+    end
+
+    def wrap_every_month?
+      name =~ /every month/
     end
   end
 end
