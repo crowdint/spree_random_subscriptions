@@ -19,5 +19,16 @@ module Spree
     def self.wrapping_product
       Spree::Product.find_by name: 'wrapping'
     end
+
+    def set_default_stock_items
+      stock_items = Spree::StockLocation.all.map do |l|
+        Spree::StockItem.new(
+            stock_location: l,
+            backorderable: true
+        )
+      end
+
+      self.master.stock_items = stock_items
+    end
   end
 end
