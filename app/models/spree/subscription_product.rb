@@ -28,7 +28,7 @@ module Spree
       product.original_price = price
       product.wrap = wrap_type
       product.recurring_limit = limit
-      product.set_stock_items
+      product.set_default_stock_items
 
       product.calculate_price
       product.save
