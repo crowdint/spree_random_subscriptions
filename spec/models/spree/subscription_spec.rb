@@ -98,7 +98,7 @@ describe Spree::Subscription do
       context 'every month' do
         let(:subscription) do
           create :subscription,
-            subscription_product: create(:subscription_product, name: 'Wrapping first month')
+            subscription_product: create(:subscription_product, name: 'Wrapping every month')
         end
         let(:order) { subscription.orders.first }
         let(:second_order) { subscription.create_order }
