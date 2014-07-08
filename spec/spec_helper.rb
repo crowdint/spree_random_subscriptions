@@ -12,7 +12,7 @@ end
 
 # Configure Rails Environment
 ENV['RAILS_ENV'] = 'test'
-
+require 'sidekiq'
 require File.expand_path('../dummy/config/environment.rb',  __FILE__)
 
 require 'rspec/rails'
