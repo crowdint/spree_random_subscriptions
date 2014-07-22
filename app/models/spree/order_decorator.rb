@@ -27,7 +27,8 @@ module Spree
               gift_name: li.gift_name,
               gift_email: li.gift_email,
               gift_message: li.gift_message,
-              line_item: li
+              line_item: li,
+              order_number: number
             )
           end
         end
