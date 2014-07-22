@@ -127,4 +127,27 @@ describe Spree::Subscription do
       it { expect(subject.note).to include email }
     end
   end
+
+  describe 'number' do
+    let(:order) { create :order }
+    let(:subscription) do
+      create :subscription,
+             order_number: order.number
+    end
+
+    let(:first_order) { subscription.orders.first }
+    let(:second_order) { subscription.create_order }
+
+    context 'when creates a new subscription' do
+      it 'creates an order with a consistent order number' do
+        expect( first_order.number ).to eq "#{order.number}-1"
+      end
+    end
+
+    context 'when adds a second order to a subscription' do
+      it 'creates an order with a sequential order number' do
+        expect( second_order.number ).to eq "#{order.number}-2"
+      end
+    end
+  end
 end
