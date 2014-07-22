@@ -92,7 +92,8 @@ module Spree
         ship_address: address,
         email: user.email,
         state: 'confirm',
-        note: note
+        note: note,
+        number: order_number
       )
     end
 
