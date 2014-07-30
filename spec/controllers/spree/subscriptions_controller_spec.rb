@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Spree::SubscriptionsController do
   let(:user) { create(:user) }
-  let(:subscription) { create(:subscription, x_subscription_id: 'AB123') }
+  let(:subscription) { create(:subscription, x_subscription_id: 'AB123', user: user) }
 
   describe '#show' do
     before do
