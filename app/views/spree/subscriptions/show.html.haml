@@ -1,0 +1,27 @@
+%h3 Subscription Information
+%p
+  %strong= t(:subscribed_product, scope: :subscriptions)
+  = @subscription.subscription_product.name
+%p
+  %strong= t(:user_email, scope: :subscriptions)
+  = @subscription.user.email
+%p
+  %strong= t(:subscribed_on, scope: :subscriptions)
+  = @subscription.created_at.to_date
+%p
+  %strong= t(:issues, scope: :subscriptions)
+  = @subscription.limit
+%p
+  %strong= t(:gift_name, scope: :subscriptions)
+  = @subscription.gift_name
+%p
+  %strong= t(:gift_message, scope: :subscriptions)
+  = @subscription.gift_message
+%p
+  %strong= t(:gift_email, scope: :subscriptions)
+  = @subscription.gift_email
+%p
+  %strong= t(:status, scope: :subscriptions)
+  = @subscription.state
+%p
+  = link_to 'Go Back To Store', root_path, class: 'button'
