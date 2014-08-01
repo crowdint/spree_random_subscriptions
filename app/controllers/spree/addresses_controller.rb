@@ -34,7 +34,7 @@ module Spree
     end
 
     def find_address
-      @address = current_spree_user.subscriptions.find(params[:id]).address
+      @address = current_spree_user.subscriptions.find(params[:subscription_id]).address
     end
   end
 end
