@@ -11,5 +11,10 @@ en:
     ship_to: 'Ships to:'
     subscribed_on: Subscription Date
     subscribed_product: Subscribed Product
+    user_email: User Email
+    gift_name: Gift Name
+    gift_message: Gift Message
+    gift_email: Gift email
+    status: Status
   spree:
     is_it_a_gift?: Is it a gift?
