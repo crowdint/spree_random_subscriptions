@@ -10,17 +10,8 @@
     %strong= "#{t(:subscribed_on, scope: :subscriptions)}:"
     = @subscription.created_at.to_date
   %p
-    %strong= "#{t(:issues, scope: :subscriptions)}:"
-    = @subscription.limit
-  %p
-    %strong= "#{t(:gift_name, scope: :subscriptions)}:"
-    = @subscription.gift_name
-  %p
-    %strong= "#{t(:gift_message, scope: :subscriptions)}:"
-    = @subscription.gift_message
-  %p
-    %strong= "#{t(:gift_email, scope: :subscriptions)}:"
-    = @subscription.gift_email
+    %strong= "#{t(:next_shipment, scope: :subscriptions)}:"
+    = @subscription.next_date.to_date
   %p
     %strong= "#{t(:status, scope: :subscriptions)}:"
     = @subscription.state
