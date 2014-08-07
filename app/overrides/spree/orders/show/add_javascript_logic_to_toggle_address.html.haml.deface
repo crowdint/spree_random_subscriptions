@@ -1,0 +1,4 @@
+/ insert_after '#order'
+
+:coffee
+  $ -> new MultiShippingAddress.Helpers.ToggleAddress()
