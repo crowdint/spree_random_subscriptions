@@ -1,5 +1,6 @@
 %h3 Edit Subscription Shipping Address
-= form_for @address, url: { action: :update } do |form|
+= form_for @address, url: { action: :update },
+  html: { id: 'checkout_form_address' } do |form|
   = render partial: 'spree/address/form',
     locals: { form: form, address_type: 'shipping', address: @address }
   = form.submit
