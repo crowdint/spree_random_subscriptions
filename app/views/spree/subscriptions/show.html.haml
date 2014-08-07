@@ -17,6 +17,7 @@
     = @subscription.state
   %p
     = link_to 'Go Back To Store', root_path, class: 'button'
+    = link_to 'Go Back To My Account', account_path, class: 'button'
     = link_to 'Edit Shipping Address',
       edit_subscription_address_path(@subscription, @subscription.address),
       class: 'button'
