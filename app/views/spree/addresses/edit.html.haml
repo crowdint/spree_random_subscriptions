@@ -1,55 +1,7 @@
 %h3 Edit Subscription Shipping Address
-= form_for @address, url: { action: :update } do |f|
-  %fieldset#shipping
-    %legend Shipping Address
-    %p.field
-      = f.label :firstname
-      %span.required *
-      %br
-      = f.text_field :firstname
-    %p.field
-      = f.label :lastname
-      %span.required *
-      %br
-      = f.text_field :lastname
-    %p.field
-      = f.label :address1
-      %span.required *
-      %br
-      = f.text_field :address1
-    %p.field
-      = f.label :address2
-      %br
-      = f.text_field :address2
-    %p.field
-      = f.label :city
-      %span.required *
-      %br
-      = f.text_field :city
-    %p.field
-      = f.label :country_id
-      %span.required *
-      %br
-      = f.collection_select :country_id, @countries, :id, :name, {}
-    %p.field#state
-      = f.label :state_id
-      %span.required *
-      %br
-      = f.collection_select :state_id, @states, :id, :name, {},
-        { class: 'required' }
-    %p.field
-      = f.label :state_name
-      %span.required *
-      %br
-      = f.text_field :state_name, class: 'required'
-    %p.field
-      = f.label :zipcode
-      %span.required *
-      %br
-      = f.text_field :zipcode, class: 'required'
-    %p.field
-      = f.label :phone
-      %span.required *
-      %br
-      = f.text_field :phone, class: 'required'
-    = f.submit
+= form_for @address, url: { action: :update },
+  html: { id: 'checkout_form_address' } do |form|
+  = render partial: 'spree/address/form',
+    locals: { form: form, address_type: 'shipping', address: @address }
+  = form.submit
+  = link_to 'Go Back To My Account', account_path, class: 'button'
