@@ -1,0 +1,9 @@
+/ surround "[data-hook='order-ship-address']"
+
+- if order.products.count - order.subscription_products.count > 0
+  = render_original
+- else
+  .columns.alpha.four{ "data-hook" => "order-ship-address" }
+    %h6
+      = Spree.t(:shipping_address)
+      = link_to "(#{Spree.t(:edit)})", checkout_state_path(:address) unless @order.completed?
