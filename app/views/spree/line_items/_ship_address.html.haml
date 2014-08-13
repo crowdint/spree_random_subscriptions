@@ -3,29 +3,31 @@
   %fieldset{ id: item_address_id, class: 'js-shipping-address', data: { hook: '' } }
     = form.fields_for :line_items, item do |item_form|
       %legend{ align: 'center' }= "#{item.product.name} - #{item.id}"
-      = check_box_tag "#{item_address_id}-checkbox", '1', true,
-        class: 'same-as-billing'
-      = label_tag "#{item_address_id}-checkbox",
-        Spree.t(:use_billing_address)
-      = item_form.fields_for :ship_address, item.build_default_ship_address do |ship_form|
-        = render partial: 'spree/address/form', locals: { form: ship_form,
-                                                          address_type: 'shipping',
-                                                          address: item.ship_address,
-                                                          address_id: item_address_id }
-      %br
-      = item_form.check_box :gift, class: 'is-a-gift'
-      = item_form.label :gift, Spree.t(:is_it_a_gift?)
-      .gift-fields{ style: "#{ is_a_gift(item.gift) }"}
-        %p.field
-          = item_form.label :gift_name
-          %br
-          = item_form.text_field :gift_name
-        %p.field
-          = item_form.label :gift_email
-          %br
-          = item_form.text_field :gift_email
-        %p.field
-          = item_form.label :gift_message
-          %br
-          = item_form.text_area :gift_message
+      .panel-collapse.collapse{ id: "#collapse#{item.id}"}
+        = check_box_tag "#{item_address_id}-checkbox", '1', true,
+          class: 'same-as-billing'
+        = label_tag "#{item_address_id}-checkbox",
+          Spree.t(:use_billing_address)
+        = item_form.fields_for :ship_address, item.build_default_ship_address do |ship_form|
+          = render partial: 'spree/address/form', locals: { form: ship_form,
+                                                            address_type: 'shipping',
+                                                            address: item.ship_address,
+                                                            address_id: item_address_id }
+        %br
+        = item_form.check_box :gift, class: 'is-a-gift'
+        = item_form.label :gift, Spree.t(:is_it_a_gift?)
+        .gift-fields{ style: "#{ is_a_gift(item.gift) }"}
+          %p.field
+            = item_form.label :gift_name
+            %br
+            = item_form.text_field :gift_name
+          %p.field
+            = item_form.label :gift_email
+            %br
+            = item_form.text_field :gift_email
+          %p.field
+            = item_form.label :gift_message
+            %br
+            = item_form.text_area :gift_message
+      %a.btn.btn-green{ data: { toggle: 'collapse', parent: '#accordion' }, href: "#collapse#{item.id}" } Edit Shipping
 
