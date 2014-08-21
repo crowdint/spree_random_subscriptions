@@ -10,7 +10,7 @@ module Spree
 
     def update
       if @address.update(address_params)
-        redirect_to account_path(current_spree_user),
+        redirect_to account_path,
           notice: 'Address updated successfully'
       else
         render :edit

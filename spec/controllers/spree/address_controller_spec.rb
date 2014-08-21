@@ -25,7 +25,7 @@ describe Spree::AddressesController do
       it 'redirects to account page' do
         spree_put :update, subscription_id: subscription,
           id: subscription.address, address: new_address
-        expect(response).to redirect_to account_path(user)
+        expect(response).to redirect_to account_path
       end
     end
 
