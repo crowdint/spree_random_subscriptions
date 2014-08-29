@@ -4,8 +4,10 @@ $.extend(MultiShippingAddress, { SameAsBilling: {} })
 class MultiShippingAddress.SameAsBilling.CopyBillToShip
   constructor: (@$form) ->
     @findShippingAddresses()
-    @bindForm()
     @bindCountrySelects()
+    @getBillAddress()
+    @copyBillAddress()
+    @bindForm()
 
   billAddress: null
   shippingAddresses: []
@@ -41,5 +43,5 @@ class MultiShippingAddress.SameAsBilling.CopyBillToShip
     addressInputs.filter("[name*=#{ name }]").val( $input.val() ).change()
 
   getBillAddress: ->
-    @billAddress =  @$form.find('#billing').find('input, select')
+    @billAddress =  @$form.find('#billing').find('input[type="text"], select')
 
