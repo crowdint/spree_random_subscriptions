@@ -5,6 +5,7 @@ class MultiShippingAddress.SameAsBilling.CopyBillToShip
   constructor: (@$form) ->
     @findShippingAddresses()
     @bindForm()
+    @bindCountrySelects()
 
   billAddress: null
   shippingAddresses: []
@@ -16,6 +17,11 @@ class MultiShippingAddress.SameAsBilling.CopyBillToShip
     @$form.on 'submit', =>
       @getBillAddress()
       @copyBillAddress()
+
+  bindCountrySelects: ->
+    $('.js-shipping-address select.country').on 'change', (e) ->
+      id = $(e.currentTarget).parent().attr('id').match(/\d+/);
+      Spree.updateState "#{ id }-address"
 
   findShippingAddresses: ->
     shippingAddresses = @$form.find('.js-shipping-address')
@@ -32,7 +38,7 @@ class MultiShippingAddress.SameAsBilling.CopyBillToShip
 
   copyInputValue: ($input, addressInputs) ->
     name = @getName $input
-    addressInputs.filter("[name*=#{ name }]").val $input.val()
+    addressInputs.filter("[name*=#{ name }]").val( $input.val() ).change()
 
   getBillAddress: ->
     @billAddress =  @$form.find('#billing').find('input, select')
